@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+struct Sections {
+    var sectionsArray = [
+        SectionModel(sectionName: "Animals", imageName: "animals", cellsPictures: ["elephant", "rabbit", "wolf"]),
+        SectionModel(sectionName: "Birds", imageName: "birds", cellsPictures: ["firstBird", "secondBird", "thirdBird"]),
+        SectionModel(sectionName: "Flowers", imageName: "flowers", cellsPictures: ["firstFlower", "secondFlower", "thirdFlower"])
+    ]
+}

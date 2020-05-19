@@ -9,22 +9,27 @@
 import UIKit
 
 class DrawingViewController: UIViewController {
-
+    
+    var sectionIndex: Int?
+    var pictureIndex: Int?
+    var drowingImage: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    let sections = Sections().sectionsArray
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.addSubview(drowingImage)
+        guard let sectionIndex = sectionIndex,
+            let pictureIndex = pictureIndex else { return }
+        NSLayoutConstraint.activate([
+            drowingImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            drowingImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            drowingImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            drowingImage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+        ])
+        drowingImage.image = UIImage(named: sections[sectionIndex].cellsPictures[pictureIndex])
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

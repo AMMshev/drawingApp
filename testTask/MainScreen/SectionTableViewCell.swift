@@ -29,61 +29,51 @@ class SectionTableViewCell: TableViewCell {
     }()
     var sectionLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont(name: "ArialRoundedMTBold", size: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     var menuImageView: UIImageView = {
         let view = UIImageView()
+        view.image = UIImage(named: "more")
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.scrollDirection = .horizontal
         collectionViewLayout.minimumLineSpacing = 15
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 30, left: 15, bottom: 10, right: 15)
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 30, left: 15, bottom: 0, right: 15)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         guard let collectionView = collectionView else { return }
         addSubview(collectionView)
+        addSubview(sectionImageView)
+        addSubview(sectionLabel)
+        addSubview(menuImageView)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(SectionCollectionViewCell.self, forCellWithReuseIdentifier: "sectionCollectionCell")
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor)
-        ])
-        collectionView.backgroundColor = .white
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(SectionCollectionViewCell.self, forCellWithReuseIdentifier: "sectionCollectionCell")
-        
-        addSubview(sectionImageView)
-        addSubview(sectionLabel)
-        addSubview(menuImageView)
-        NSLayoutConstraint.activate([
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             sectionImageView.topAnchor.constraint(equalTo: topAnchor),
             sectionImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            sectionImageView.heightAnchor.constraint(equalToConstant: 32),
-            sectionImageView.widthAnchor.constraint(equalToConstant: 32),
             sectionLabel.leadingAnchor.constraint(equalTo: sectionImageView.trailingAnchor, constant: 10),
             sectionLabel.centerYAnchor.constraint(equalTo: sectionImageView.centerYAnchor),
             menuImageView.centerYAnchor.constraint(equalTo: sectionImageView.centerYAnchor),
-            menuImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            menuImageView.heightAnchor.constraint(equalToConstant: 32),
-            menuImageView.widthAnchor.constraint(equalToConstant: 32)
+            menuImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
         sectionImageView.image = UIImage(named: sectionData?.imageName ?? "")
         sectionLabel.text = sectionData?.sectionName.uppercased()
     }
 }
-
 
 extension SectionTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -91,7 +81,9 @@ extension SectionTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell", for: indexPath) as? SectionCollectionViewCell else { return UICollectionViewCell() }
+        cell.image = UIImage(named: sectionData?.cellsPictures[indexPath.item] ?? "")
+        cell.layer.cornerRadius = 10
         return cell
     }
     

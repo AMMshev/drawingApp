@@ -10,8 +10,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    
     var tableView: UITableView?
+    var tapIndex: [Int] = [0, 0]
     let sections = Sections().sectionsArray
     
     override func viewDidLoad() {
@@ -31,7 +31,7 @@ class MainViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor
             )
         ])
-        navigationController?.navigationBar.clipsToBounds = true
+//        navigationController?.navigationBar.clipsToBounds = true
         tableView.register(SectionTableViewCell.self, forCellReuseIdentifier: "sectionCell")
     }
 }
@@ -58,6 +58,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 extension MainViewController: CollectionViewCellDelegate {
     
     func collectionView(collectionviewcell: UICollectionViewCell?, index: Int, didTappedInTableViewCell: TableViewCell) {
-        print("tapped \(index) and tableViewCell \(didTappedInTableViewCell.tableViewCellIndex)")
+        tapIndex[0] = didTappedInTableViewCell.tableViewCellIndex ?? 0
+        tapIndex[1] = index
+        performSegue(withIdentifier: "showDrawingScreen", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showDrawingScreen" {
+            guard let destinationVC = segue.destination as? DrawingViewController else { return }
+            destinationVC.sectionIndex = tapIndex[0]
+            destinationVC.pictureIndex = tapIndex[1]
+        }
     }
 }

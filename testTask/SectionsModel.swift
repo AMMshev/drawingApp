@@ -7,3 +7,9 @@
 //
 
 import Foundation
+
+struct SectionModel {
+    var sectionName: String
+    var imageName: String
+    var cellsPictures: [String]
+}
