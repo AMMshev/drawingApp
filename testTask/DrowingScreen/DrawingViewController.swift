@@ -202,10 +202,7 @@ extension DrawingViewController: IntroductionViewCellDelegate {
 
 extension DrawingViewController: ShopTableViewCellDelegate {
     func buyColor(boughtColorCount: Double) {
-        let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0) + boughtColorCount / 1000
-        UserDefaults.standard.set(newBalance,
-                                  forKey: Constants.UserDafaultsKeys.balance.rawValue)
-        print(boughtColorCount)
-        colorCountView.colorCountLabel.text = newBalance.stringWithoutZeroFraction + "K"
+        let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0)
+        colorCountView.setColorCount(value: newBalance)
     }
 }

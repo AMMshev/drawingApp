@@ -27,7 +27,8 @@ class ColorCountView: UIView {
     }()
     let colorCountLabel: UILabel = {
         let label = UILabel()
-        label.text = ((UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double)?.stringWithoutZeroFraction ?? "") + "K"
+        let valueFromDefaults = UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double
+        label.text = String(valueFromDefaults ?? 0.0) + "K"
         label.textColor = UIColor(named: "colorCount")
         label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,6 +47,10 @@ class ColorCountView: UIView {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
+    }
+    
+    func setColorCount(value: Double) {
+        colorCountLabel.text = String(value) + "K"
     }
     
     func addToStack(element: UIView) {

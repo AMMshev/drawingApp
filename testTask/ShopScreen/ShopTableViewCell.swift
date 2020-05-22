@@ -101,7 +101,7 @@ class ShopTableViewCell: UITableViewCell {
         countAndBonusStackView.addArrangedSubview(colorCountLabel)
         countAndBonusStackView.addArrangedSubview(bonusLabel)
         countAndBonusStackView.addArrangedSubview(taskLabel)
-        self.colorCountLabel.text = String(colorCount.stringWithoutZeroFraction)
+        self.colorCountLabel.text = String(colorCount)
     }
     func addToStack(freeTask: String?, bonus: String?) {
         

@@ -23,7 +23,7 @@ enum Constants {
         case introductionCell
     }
     enum UserDafaultsKeys: String {
-        case balance = "colorBalance"
+        case balance
     }
     enum ImageNames: String {
         case fill

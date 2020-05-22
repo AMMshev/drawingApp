@@ -73,6 +73,7 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
                                 bonusTask: cellData.bonusTaskName,
                                 sticker: cellData.stickerName)
         cell.delegate = self
+        cell.parantDelegate = self.presentingViewController?.children.last as? DrawingViewController
         return cell
     }
     
@@ -86,7 +87,6 @@ extension ShopViewController: ShopTableViewCellDelegate {
         let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0) + boughtColorCount / 1000
         UserDefaults.standard.set(newBalance,
                                   forKey: Constants.UserDafaultsKeys.balance.rawValue)
-        print(boughtColorCount)
-        headerView.colorCountView.colorCountLabel.text = newBalance.stringWithoutZeroFraction + "K"
+        headerView.colorCountView.setColorCount(value: newBalance)
     }
 }
