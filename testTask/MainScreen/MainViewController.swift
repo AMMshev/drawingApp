@@ -10,64 +10,74 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    var tableView: UITableView?
-    var tapIndex: [Int] = [0, 0]
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.showsVerticalScrollIndicator = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(SectionTableViewCell.self, forCellReuseIdentifier: "sectionCell")
+        return tableView
+    }()
+//    var sectionIndex: Int?
+//    var pictureIndex: Int?
     let sections = Sections().sectionsArray
-    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "EXPLORE"
+        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView = UITableView()
-        guard let tableView = tableView else { return }
         view.addSubview(tableView)
-        tableView.separatorStyle = .none
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleLabel)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
+        setLayout()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let navigationController = UIApplication.shared.windows[0].rootViewController as? NavigationController
+        navigationController?.menuBarView.isHidden = false
+    }
+    fileprivate func setLayout() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 73),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor
-            )
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-//        navigationController?.navigationBar.clipsToBounds = true
-        tableView.register(SectionTableViewCell.self, forCellReuseIdentifier: "sectionCell")
     }
 }
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
         sections.count
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell") as? SectionTableViewCell else { return UITableViewCell() }
+        cell.cellDelegate = self
         cell.sectionData = sections[indexPath.row]
         cell.tableViewCellIndex = indexPath.row
-        cell.cellDelegate = self
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
         UIScreen.main.bounds.height / 3.0
     }
 }
 
 extension MainViewController: CollectionViewCellDelegate {
     
-    func collectionView(collectionviewcell: UICollectionViewCell?, index: Int, didTappedInTableViewCell: TableViewCell) {
-        tapIndex[0] = didTappedInTableViewCell.tableViewCellIndex ?? 0
-        tapIndex[1] = index
-        performSegue(withIdentifier: "showDrawingScreen", sender: nil)
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDrawingScreen" {
-            guard let destinationVC = segue.destination as? DrawingViewController else { return }
-            destinationVC.sectionIndex = tapIndex[0]
-            destinationVC.pictureIndex = tapIndex[1]
-        }
+    func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: TableViewCell) {
+        let sectionIndex = didTappedInTableViewCell.tableViewCellIndex ?? 0
+        let drawingScreen = DrawingViewController(sectionIndex: sectionIndex, pictureIndex: collectionCellIndex, nibName: nil, bundle: nil)
+        navigationController?.pushViewController(drawingScreen, animated: true)
     }
 }

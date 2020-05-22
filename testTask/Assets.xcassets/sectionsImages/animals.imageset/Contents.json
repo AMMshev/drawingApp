@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "animalsx1.png",
+      "filename" : "071-jaguar-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "animalsx2.png",
+      "filename" : "071-jaguar-1-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "animalsx3.png",
+      "filename" : "071-jaguar-1-3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol CollectionViewCellDelegate: class {
-    func collectionView(collectionviewcell: UICollectionViewCell?, index: Int, didTappedInTableViewCell: TableViewCell)
+    func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: TableViewCell)
 }
 
 class TableViewCell: UITableViewCell {
@@ -20,7 +20,7 @@ class TableViewCell: UITableViewCell {
 class SectionTableViewCell: TableViewCell {
     
     var collectionView: UICollectionView?
-    weak var cellDelegate: CollectionViewCellDelegate?
+    weak open var cellDelegate: CollectionViewCellDelegate?
     
     var sectionImageView: UIImageView = {
         let view = UIImageView()
@@ -40,6 +40,7 @@ class SectionTableViewCell: TableViewCell {
         return view
     }()
     
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -57,42 +58,52 @@ class SectionTableViewCell: TableViewCell {
         collectionView.backgroundColor = .white
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(SectionCollectionViewCell.self, forCellWithReuseIdentifier: "sectionCollectionCell")
+        collectionView.register(SectionCollectionViewCell.self,
+                                forCellWithReuseIdentifier: "sectionCollectionCell")
+        setLayout(collectionView)
+        sectionImageView.image = UIImage(named: sectionData?.imageName ?? "")
+        sectionLabel.text = sectionData?.sectionName.uppercased()
+    }
+    fileprivate func setLayout(_ collectionView: UICollectionView) {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             sectionImageView.topAnchor.constraint(equalTo: topAnchor),
-            sectionImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            sectionImageView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                      constant: 15),
             sectionLabel.leadingAnchor.constraint(equalTo: sectionImageView.trailingAnchor, constant: 10),
             sectionLabel.centerYAnchor.constraint(equalTo: sectionImageView.centerYAnchor),
             menuImageView.centerYAnchor.constraint(equalTo: sectionImageView.centerYAnchor),
             menuImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
-        sectionImageView.image = UIImage(named: sectionData?.imageName ?? "")
-        sectionLabel.text = sectionData?.sectionName.uppercased()
     }
 }
 
 extension SectionTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView,
+                        numberOfItemsInSection section: Int) -> Int {
         sectionData?.cellsPictures.count ?? 0
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell", for: indexPath) as? SectionCollectionViewCell else { return UICollectionViewCell() }
-        cell.image = UIImage(named: sectionData?.cellsPictures[indexPath.item] ?? "")
-        cell.layer.cornerRadius = 10
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell",
+                                                            for: indexPath) as? SectionCollectionViewCell else { return UICollectionViewCell() }
+        cell.setImage(image: UIImage(named: sectionData?.cellsPictures[indexPath.item] ?? ""))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell", for: indexPath)
-        self.cellDelegate?.collectionView(collectionviewcell: cell, index: indexPath.item, didTappedInTableViewCell: self)
+        self.cellDelegate?.collectionView(collectionviewcell: cell,
+                                          collectionCellIndex: indexPath.item,
+                                          didTappedInTableViewCell: self)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 200, height: 200)
+        CGSize(width: collectionView.bounds.width / 2.5,
+               height: collectionView.bounds.width / 2.5)
     }
 }

@@ -13,7 +13,6 @@ class SectionCollectionViewCell: UICollectionViewCell {
     var decorationImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 10
         return view
     }()
     var image: UIImage?
@@ -21,30 +20,23 @@ class SectionCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(decorationImage)
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
         NSLayoutConstraint.activate([
-            decorationImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            decorationImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            decorationImage.heightAnchor.constraint(equalToConstant: bounds.height),
-            decorationImage.widthAnchor.constraint(equalToConstant: bounds.width)
+            decorationImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            decorationImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            decorationImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            decorationImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ])
-    }
-    
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        decorationImage.image = image
         backgroundColor = .white
-        layer.shadowOffset = CGSize(width: 1.5, height: 3)
+        layer.shadowOffset = CGSize(width: 1.5, height: 3.0)
         layer.shadowColor = UIColor.gray.cgColor
         layer.shadowRadius = 10.0
         layer.shadowOpacity = 0.3
         layer.cornerRadius = 10.0
-        decorationImage.layer.cornerRadius = 10.0
-        decorationImage.clipsToBounds = true
     }
+    
+        func setImage(image: UIImage?) {
+            decorationImage.image = image
+        }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
