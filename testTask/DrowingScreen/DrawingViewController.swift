@@ -23,7 +23,8 @@ class DrawingViewController: UIViewController {
         button.layer.cornerRadius = 25.0
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.shadowOffset = CGSize(width: 1.0, height: 1.5)
-        button.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.back.rawValue), for: .normal)
+        button.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.back.rawValue),
+                        for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.widthAnchor.constraint(equalToConstant: 50).isActive = true
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -76,7 +77,6 @@ class DrawingViewController: UIViewController {
         button.addTarget(self, action: #selector(addColorButtonTapped), for: .touchUpInside)
         return button
     }()
-    
     var introductionVC = IntroductionViewController()
     
     init(sectionIndex: Int, pictureIndex: Int, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -98,6 +98,7 @@ class DrawingViewController: UIViewController {
         let navigationController = UIApplication.shared.windows[0].rootViewController as? NavigationController
         navigationController?.menuBarView.isHidden = true
     }
+    
     fileprivate func setupChildVC() {
         introductionVC.delegate = self
         addChild(introductionVC)
@@ -110,13 +111,13 @@ class DrawingViewController: UIViewController {
         view.addSubview(settingsView)
         view.addSubview(colorCountView)
         settingsView.addSubview(settingsStackView)
-        colorCountView.stackView.addArrangedSubview(addColorCountButton)
-        settingsVibrantButton = setButton(imageName: Constants.ImageNames.DrowingScreen.vibra.rawValue, action: nil)
-        settingsAudioButton = setButton(imageName: Constants.ImageNames.DrowingScreen.audioon.rawValue, action: nil)
-        settingsGeneralButton = setButton(imageName: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue,
+        settingsVibrantButton = addToButton(image: Constants.ImageNames.DrowingScreen.vibra.rawValue, action: nil)
+        settingsAudioButton = addToButton(image: Constants.ImageNames.DrowingScreen.audioon.rawValue, action: nil)
+        settingsGeneralButton = addToButton(image: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue,
                                           action: #selector(settingsButtonTapped))
         settingsAudioButton.isHidden = true
         settingsVibrantButton.isHidden = true
+        colorCountView.addToStack(element: addColorCountButton)
         settingsStackView.addArrangedSubview(settingsGeneralButton)
         settingsStackView.addArrangedSubview(settingsVibrantButton)
         settingsStackView.addArrangedSubview(settingsAudioButton)
@@ -142,9 +143,9 @@ class DrawingViewController: UIViewController {
         drowingImage.image = UIImage(named: sections[sectionIndex].cellsPictures[pictureIndex])
     }
     
-    func setButton(imageName: String, action: Selector?) -> UIButton {
+    func addToButton(image: String, action: Selector?) -> UIButton {
         let button = UIButton()
-        button.setImage(UIImage(named: imageName), for: .normal)
+        button.setImage(UIImage(named: image), for: .normal)
         if let action = action {
             button.addTarget(self, action: action, for: .touchUpInside)
         }
@@ -196,5 +197,15 @@ extension DrawingViewController: IntroductionViewCellDelegate {
                 self.introductionVC.removeFromParent()
             }
         }
+    }
+}
+
+extension DrawingViewController: ShopTableViewCellDelegate {
+    func buyColor(boughtColorCount: Double) {
+        let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0) + boughtColorCount / 1000
+        UserDefaults.standard.set(newBalance,
+                                  forKey: Constants.UserDafaultsKeys.balance.rawValue)
+        print(boughtColorCount)
+        colorCountView.colorCountLabel.text = newBalance.stringWithoutZeroFraction + "K"
     }
 }

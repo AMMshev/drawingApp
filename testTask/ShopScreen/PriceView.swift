@@ -22,9 +22,9 @@ class PriceView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(productsStackView)
-        productsStackView.addArrangedSubview(makePriceView(productImageName: Constants.ImageNames.witch.rawValue,
+        productsStackView.addArrangedSubview(addToStack(productImage: Constants.ImageNames.witch.rawValue,
                                                            priceCount: "1"))
-        productsStackView.addArrangedSubview(makePriceView(productImageName: Constants.ImageNames.witch.rawValue,
+        productsStackView.addArrangedSubview(addToStack(productImage: Constants.ImageNames.witch.rawValue,
                                                            priceCount: "20"))
         NSLayoutConstraint.activate([
             productsStackView.topAnchor.constraint(equalTo: topAnchor),
@@ -34,8 +34,8 @@ class PriceView: UIView {
         ])
     }
     
-    func makePriceView(productImageName: String, priceCount: String) -> UIStackView {
-        let productImage = UIImageView(image: UIImage(named: productImageName))
+    func addToStack(productImage: String, priceCount: String) -> UIStackView {
+        let productImage = UIImageView(image: UIImage(named: productImage))
         let priceLabel = UILabel()
         priceLabel.text = " - \(priceCount) "
         priceLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 12)

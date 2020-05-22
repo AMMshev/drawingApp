@@ -18,6 +18,7 @@ protocol shopActionDelegate: class {
 class ShopTableViewCell: UITableViewCell {
     
     weak open var delegate: ShopTableViewCellDelegate?
+    weak open var parantDelegate: ShopTableViewCellDelegate?
     
     private let mainView: UIView = {
         let view = UIView()
@@ -44,7 +45,14 @@ class ShopTableViewCell: UITableViewCell {
         stackView.distribution = .fill
         return stackView
     }()
-    private var colorCountLabel = UILabel()
+    private var colorCountLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue,
+                                      size: 24)
+        label.textColor = UIColor(named: Constants.ImageNames.colorCount.rawValue)
+        return label
+    }()
     private var bonusLabel = UILabel()
     private var taskLabel = UILabel()
     
@@ -66,7 +74,7 @@ class ShopTableViewCell: UITableViewCell {
         return view
     }()
     var colorCount: Double = 0
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         contentView.addSubview(mainView)
@@ -93,14 +101,10 @@ class ShopTableViewCell: UITableViewCell {
         countAndBonusStackView.addArrangedSubview(colorCountLabel)
         countAndBonusStackView.addArrangedSubview(bonusLabel)
         countAndBonusStackView.addArrangedSubview(taskLabel)
+        self.colorCountLabel.text = String(colorCount.stringWithoutZeroFraction)
     }
-    
-    func setColorCountAndBonusStack(freeTask: String?, bonus: String?) {
+    func addToStack(freeTask: String?, bonus: String?) {
         
-        colorCountLabel.text = String(colorCount.stringWithoutZeroFraction)
-        colorCountLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue,
-                                      size: 24)
-        colorCountLabel.textColor = UIColor(named: Constants.ImageNames.colorCount.rawValue)
         if let bonus = bonus {
             bonusLabel.text = bonus
             bonusLabel.textColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
@@ -114,8 +118,8 @@ class ShopTableViewCell: UITableViewCell {
         }
     }
     
-    func setPriceAndSticker(price: String?, bonusTaskName: Constants.BonusTasksNames?,
-                            stickerName: Constants.StickersNames?) {
+    func addToCell(price: String?, bonusTask: Constants.BonusTasksNames?,
+                            sticker: Constants.StickersNames?) {
         if let price = price {
             let buttonsTitle = NSAttributedString(string: price, attributes: [NSAttributedString.Key.font:
                 UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12)
@@ -129,17 +133,17 @@ class ShopTableViewCell: UITableViewCell {
             priceButton.layer.cornerRadius = 15.0
             priceButton.layer.shadowOpacity = 0.1
         }
-        if let stickerName = stickerName {
+        if let sticker = sticker {
             let stickerTitle = UILabel()
             stickerTitle.translatesAutoresizingMaskIntoConstraints = false
             stickerView.addSubview(stickerTitle)
             stickerTitle.centerYAnchor.constraint(equalTo: stickerView.centerYAnchor).isActive = true
             stickerTitle.centerXAnchor.constraint(equalTo: stickerView.centerXAnchor).isActive = true
             stickerTitle.textColor = .white
-            let title = NSAttributedString(string: stickerName.rawValue,
+            let title = NSAttributedString(string: sticker.rawValue,
                                            attributes: [NSAttributedString.Key.font:UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 6) ?? UIFont.systemFont(ofSize: 6)])
             stickerTitle.attributedText = title
-            switch stickerName {
+            switch sticker {
             case .unlockGift:
                 stickerView.backgroundColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
             case .mostPopular:
@@ -148,13 +152,13 @@ class ShopTableViewCell: UITableViewCell {
                 stickerView.backgroundColor = #colorLiteral(red: 1, green: 0.4, blue: 0.4, alpha: 1)
             }
         }
-        if let bonusTaskName = bonusTaskName {
+        if let bonusTask = bonusTask {
             priceButton.backgroundColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
-            let buttonsTitle = NSAttributedString(string: bonusTaskName.rawValue, attributes: [NSAttributedString.Key.font:
+            let buttonsTitle = NSAttributedString(string: bonusTask.rawValue, attributes: [NSAttributedString.Key.font:
                 UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12) ?? UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.white])
             priceButton.setAttributedTitle(buttonsTitle, for: .normal)
-            priceButton.setTitle(bonusTaskName.rawValue, for: .normal)
-            switch bonusTaskName {
+            priceButton.setTitle(bonusTask.rawValue, for: .normal)
+            switch bonusTask {
             case .watch:
                 priceButton.setImage(UIImage(named: Constants.ImageNames.watch.rawValue),
                                      for: .normal)
@@ -167,5 +171,6 @@ class ShopTableViewCell: UITableViewCell {
     
     @objc func priceButtonTapped() {
         delegate?.buyColor(boughtColorCount: colorCount)
+        parantDelegate?.buyColor(boughtColorCount: colorCount)
     }
 }

@@ -29,7 +29,7 @@ class SectionTableViewCell: TableViewCell {
     }()
     private var sectionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 20)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 9)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -63,9 +63,9 @@ class SectionTableViewCell: TableViewCell {
         setLayout(collectionView)
     }
     
-    func setSectionData(sectionName: String, imageName: String) {
-        sectionLabel.text = sectionName.uppercased()
-        sectionImageView.image = UIImage(named: imageName)
+    func addToCell(section: String, image: String) {
+        sectionLabel.text = section.uppercased()
+        sectionImageView.image = UIImage(named: image)
     }
     fileprivate func setLayout(_ collectionView: UICollectionView) {
         NSLayoutConstraint.activate([
@@ -106,7 +106,6 @@ extension SectionTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.bounds.width / 2.5,
-               height: collectionView.bounds.width / 2.5)
+        CGSize(width: 128.0, height: 128.0)
     }
 }

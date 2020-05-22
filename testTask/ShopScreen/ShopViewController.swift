@@ -68,10 +68,10 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableViewCellsID.shopCell.rawValue) as? ShopTableViewCell else { return UITableViewCell() }
         let cellData = priceData[indexPath.row]
         cell.colorCount = cellData.colorCount
-        cell.setColorCountAndBonusStack(freeTask: cellData.freeTask, bonus: cellData.bonus)
-        cell.setPriceAndSticker(price: cellData.price,
-                                bonusTaskName: cellData.bonusTaskName,
-                                stickerName: cellData.stickerName)
+        cell.addToStack(freeTask: cellData.freeTask, bonus: cellData.bonus)
+        cell.addToCell(price: cellData.price,
+                                bonusTask: cellData.bonusTaskName,
+                                sticker: cellData.stickerName)
         cell.delegate = self
         return cell
     }
@@ -87,6 +87,6 @@ extension ShopViewController: ShopTableViewCellDelegate {
         UserDefaults.standard.set(newBalance,
                                   forKey: Constants.UserDafaultsKeys.balance.rawValue)
         print(boughtColorCount)
-        headerView.colorCountView.colorCountLabel.text = newBalance.stringWithoutZeroFraction + " K"
+        headerView.colorCountView.colorCountLabel.text = newBalance.stringWithoutZeroFraction + "K"
     }
 }

@@ -21,10 +21,30 @@ class MenuBarView: UIView {
         view.layer.shadowOpacity = 0.1
         return view
     }()
-    private var mainMenuButton = UIButton()
-    private var easelButton = UIButton()
-    private var giftButton = UIButton()
-    private var infoButton = UIButton()
+    private var mainMenuButton: UIButton = {
+       let button = UIButton()
+        button.setImage(UIImage(named: Constants.ImageNames.MenuBar.birdActive.rawValue), for: .normal)
+        button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private var easelButton: UIButton = {
+       let button = UIButton()
+        button.setImage(UIImage(named: Constants.ImageNames.MenuBar.paint.rawValue), for: .normal)
+        button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private var giftButton: UIButton = {
+       let button = UIButton()
+        button.setImage(UIImage(named: Constants.ImageNames.MenuBar.gift.rawValue), for: .normal)
+        button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+    private var infoButton: UIButton = {
+       let button = UIButton()
+        button.setImage(UIImage(named: Constants.ImageNames.MenuBar.info.rawValue), for: .normal)
+        button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
     private var isInfoVCpresented = false
     private let buttonsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -50,14 +70,6 @@ class MenuBarView: UIView {
             buttonsStackView.bottomAnchor.constraint(equalTo: shelfView.bottomAnchor),
             buttonsStackView.trailingAnchor.constraint(equalTo: shelfView.trailingAnchor)
         ])
-        mainMenuButton = setButton(imageName: Constants.ImageNames.MenuBar.birdActive.rawValue,
-                                   action: #selector(menuButtonTapped(sender:)))
-        easelButton = setButton(imageName: Constants.ImageNames.MenuBar.gift.rawValue,
-                                action: #selector(menuButtonTapped(sender:)))
-        giftButton = setButton(imageName: Constants.ImageNames.MenuBar.paint.rawValue,
-                               action: #selector(menuButtonTapped(sender:)))
-        infoButton = setButton(imageName: Constants.ImageNames.MenuBar.info.rawValue,
-                               action: #selector(menuButtonTapped(sender:)))
         buttonsStackView.addArrangedSubview(mainMenuButton)
         buttonsStackView.addArrangedSubview(easelButton)
         buttonsStackView.addArrangedSubview(giftButton)
@@ -75,14 +87,6 @@ class MenuBarView: UIView {
                             for: .normal)
     }
     
-    private func setButton(imageName: String, action: Selector?) -> UIButton {
-        let button = UIButton()
-        button.setImage(UIImage(named: imageName), for: .normal)
-        if let action = action {
-            button.addTarget(self, action: action, for: .touchUpInside)
-        }
-        return button
-    }
     @objc private func menuButtonTapped(sender: UIButton) {
         let navigationController = UIApplication.shared.windows[0].rootViewController as? NavigationController
         if sender == mainMenuButton {

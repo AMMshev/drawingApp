@@ -43,7 +43,7 @@ class InformationCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setCellsData(imageName: String, labelText: String) {
+    func addToCell(imageName: String, labelText: String) {
         imageView.image = UIImage(named: imageName)
         labelView.text = labelText
     }

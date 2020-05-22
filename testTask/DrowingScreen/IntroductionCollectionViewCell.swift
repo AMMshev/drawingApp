@@ -72,11 +72,11 @@ class IntroductionCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setPageData(pageImageName: String, pageTitle: String, description: String, priceImageName: String?) {
-        self.pageImage.image = UIImage(named: pageImageName)
-        self.pageTitle.text = pageTitle
+    func addToPage(image: String, title: String, description: String, priceImage: String?) {
+        self.pageImage.image = UIImage(named: image)
+        self.pageTitle.text = title
         self.descriptionLabel.text = description
-        guard let priceImageName = priceImageName else { return }
+        guard let priceImageName = priceImage else { return }
         self.priceImageView.image = UIImage(named: priceImageName)
     }
     required init?(coder: NSCoder) {

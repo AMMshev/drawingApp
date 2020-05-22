@@ -62,14 +62,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableViewCellsID.sectionCell.rawValue) as? SectionTableViewCell else { return UITableViewCell() }
         cell.cellDelegate = self
         let sectionData = sections[indexPath.row]
-        cell.setSectionData(sectionName: sectionData.sectionName,
-                            imageName: sectionData.imageName)
+        cell.addToCell(section: sectionData.sectionName,
+                            image: sectionData.imageName)
         cell.sectionPictures = sectionData.cellsPictures
         cell.tableViewCellIndex = indexPath.row
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UIScreen.main.bounds.height / 3.0
+        220.0
     }
 }
 

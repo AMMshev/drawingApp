@@ -105,10 +105,10 @@ extension IntroductionViewController: UICollectionViewDelegate, UICollectionView
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.introductionCell.rawValue,
                                                             for: indexPath) as? IntroductionCollectionViewCell else { return UICollectionViewCell() }
         let pageData = introductionScreenData[indexPath.row]
-        cell.setPageData(pageImageName: pageData.pageImageName,
-                         pageTitle: pageData.pageTitle,
+        cell.addToPage(image: pageData.pageImageName,
+                         title: pageData.pageTitle,
                          description: pageData.pageDescription,
-                         priceImageName: pageData.priceImageName)
+                         priceImage: pageData.priceImageName)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -87,7 +87,7 @@ extension InformationScreenViewController: UICollectionViewDelegate, UICollectio
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.informationCell.rawValue, for: indexPath) as? InformationCollectionViewCell else { return UICollectionViewCell() }
         let cellData = cellsData[indexPath.item]
-        cell.setCellsData(imageName: cellData.imageName, labelText: cellData.labelText)
+        cell.addToCell(imageName: cellData.imageName, labelText: cellData.labelText)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

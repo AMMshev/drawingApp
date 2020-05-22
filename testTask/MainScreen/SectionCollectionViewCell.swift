@@ -21,22 +21,22 @@ class SectionCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         addSubview(decorationImage)
         NSLayoutConstraint.activate([
-            decorationImage.topAnchor.constraint(equalTo: topAnchor, constant: 10),
-            decorationImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            decorationImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
-            decorationImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            decorationImage.topAnchor.constraint(equalTo: topAnchor, constant: 5.0),
+            decorationImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5.0),
+            decorationImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5.0),
+            decorationImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -5.0)
         ])
         backgroundColor = .white
-        layer.shadowOffset = CGSize(width: 1.5, height: 3.0)
+        layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         layer.shadowColor = UIColor.gray.cgColor
-        layer.shadowRadius = 10.0
-        layer.shadowOpacity = 0.3
-        layer.cornerRadius = 10.0
+        layer.shadowRadius = 5.0
+        layer.shadowOpacity = 0.1
+        layer.cornerRadius = 5.0
     }
     
-        func setImage(image: UIImage?) {
-            decorationImage.image = image
-        }
+    func setImage(image: UIImage?) {
+        decorationImage.image = image
+    }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
