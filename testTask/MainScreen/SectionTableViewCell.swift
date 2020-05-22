@@ -14,28 +14,28 @@ protocol CollectionViewCellDelegate: class {
 
 class TableViewCell: UITableViewCell {
     var tableViewCellIndex: Int?
-    var sectionData: SectionModel?
+    var sectionPictures: [String]?
 }
 
 class SectionTableViewCell: TableViewCell {
     
-    var collectionView: UICollectionView?
+    private var collectionView: UICollectionView?
     weak open var cellDelegate: CollectionViewCellDelegate?
     
-    var sectionImageView: UIImageView = {
+    private var sectionImageView: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    var sectionLabel: UILabel = {
+    private var sectionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 20)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 20)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    var menuImageView: UIImageView = {
+    private var menuImageView: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "more")
+        view.image = UIImage(named: Constants.ImageNames.MainScreen.more.rawValue)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -59,10 +59,13 @@ class SectionTableViewCell: TableViewCell {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(SectionCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "sectionCollectionCell")
+                                forCellWithReuseIdentifier: Constants.CollectionViewCellsID.sectionCollectionCell.rawValue)
         setLayout(collectionView)
-        sectionImageView.image = UIImage(named: sectionData?.imageName ?? "")
-        sectionLabel.text = sectionData?.sectionName.uppercased()
+    }
+    
+    func setSectionData(sectionName: String, imageName: String) {
+        sectionLabel.text = sectionName.uppercased()
+        sectionImageView.image = UIImage(named: imageName)
     }
     fileprivate func setLayout(_ collectionView: UICollectionView) {
         NSLayoutConstraint.activate([
@@ -84,19 +87,19 @@ class SectionTableViewCell: TableViewCell {
 extension SectionTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
-        sectionData?.cellsPictures.count ?? 0
+        sectionPictures?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell",
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.sectionCollectionCell.rawValue,
                                                             for: indexPath) as? SectionCollectionViewCell else { return UICollectionViewCell() }
-        cell.setImage(image: UIImage(named: sectionData?.cellsPictures[indexPath.item] ?? ""))
+        cell.setImage(image: UIImage(named: sectionPictures?[indexPath.item] ?? ""))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "sectionCollectionCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.sectionCollectionCell.rawValue, for: indexPath)
         self.cellDelegate?.collectionView(collectionviewcell: cell,
                                           collectionCellIndex: indexPath.item,
                                           didTappedInTableViewCell: self)

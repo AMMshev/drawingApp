@@ -10,8 +10,8 @@ import UIKit
 
 class ShopViewController: UIViewController {
     
-    let priceData = ShopData().cellDataArray
-    let headerView: HeaderView = {
+    private let priceData = ShopData().cellDataArray
+    private let headerView: HeaderView = {
         let view = HeaderView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ class ShopViewController: UIViewController {
                                    for: .touchUpInside)
         return view
     }()
-    var tableView: UITableView
+    private var tableView: UITableView
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         tableView = UITableView()
@@ -30,7 +30,8 @@ class ShopViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.register(ShopTableViewCell.self, forCellReuseIdentifier: "shopCell")
+        tableView.register(ShopTableViewCell.self,
+                           forCellReuseIdentifier: Constants.TableViewCellsID.shopCell.rawValue)
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -53,28 +54,39 @@ class ShopViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func closeButtonTapped() {
+    @objc private func closeButtonTapped() {
         self.dismiss(animated: true, completion: nil)
     }
 }
 
 extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        7
+        priceData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "shopCell") as? ShopTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableViewCellsID.shopCell.rawValue) as? ShopTableViewCell else { return UITableViewCell() }
         let cellData = priceData[indexPath.row]
-        cell.setColorCountAndBonusStack(colorCount: cellData.colorCount,
-                                        freeTask: cellData.freeTask, bonus: cellData.bonus)
+        cell.colorCount = cellData.colorCount
+        cell.setColorCountAndBonusStack(freeTask: cellData.freeTask, bonus: cellData.bonus)
         cell.setPriceAndSticker(price: cellData.price,
                                 bonusTaskName: cellData.bonusTaskName,
                                 stickerName: cellData.stickerName)
+        cell.delegate = self
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         85
+    }
+}
+
+extension ShopViewController: ShopTableViewCellDelegate {
+    func buyColor(boughtColorCount: Double) {
+        let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0) + boughtColorCount / 1000
+        UserDefaults.standard.set(newBalance,
+                                  forKey: Constants.UserDafaultsKeys.balance.rawValue)
+        print(boughtColorCount)
+        headerView.colorCountView.colorCountLabel.text = newBalance.stringWithoutZeroFraction + " K"
     }
 }

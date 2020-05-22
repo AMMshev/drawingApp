@@ -25,7 +25,7 @@ class IntroductionViewController: UIViewController {
                    height: UIScreen.main.bounds.height),
                                               collectionViewLayout: collectionViewLayout)
         collectionView.register(IntroductionCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "introductionCell")
+                                forCellWithReuseIdentifier: Constants.CollectionViewCellsID.introductionCell.rawValue)
         collectionView.isPagingEnabled = true
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
@@ -39,8 +39,11 @@ class IntroductionViewController: UIViewController {
     }()
     let nextButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Next", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        let title = NSAttributedString(string: "Next", attributes: [
+            NSAttributedString.Key.foregroundColor: UIColor.white,
+            NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 16) ?? UIFont.systemFont(ofSize: 16)
+        ])
+        button.setAttributedTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
@@ -71,7 +74,7 @@ class IntroductionViewController: UIViewController {
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                constant: -60),
+                                                constant: -50),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                  constant: -30),
             nextButton.centerYAnchor.constraint(equalTo: pageControl.centerYAnchor)
@@ -99,7 +102,7 @@ extension IntroductionViewController: UICollectionViewDelegate, UICollectionView
     }
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "introductionCell",
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.introductionCell.rawValue,
                                                             for: indexPath) as? IntroductionCollectionViewCell else { return UICollectionViewCell() }
         let pageData = introductionScreenData[indexPath.row]
         cell.setPageData(pageImageName: pageData.pageImageName,

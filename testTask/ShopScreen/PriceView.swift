@@ -10,7 +10,7 @@ import UIKit
 
 class PriceView: UIView {
     
-    let productsStackView: UIStackView = {
+    private let productsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
@@ -22,9 +22,9 @@ class PriceView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(productsStackView)
-        productsStackView.addArrangedSubview(makePriceView(productImageName: "witch",
+        productsStackView.addArrangedSubview(makePriceView(productImageName: Constants.ImageNames.witch.rawValue,
                                                            priceCount: "1"))
-        productsStackView.addArrangedSubview(makePriceView(productImageName: "smile",
+        productsStackView.addArrangedSubview(makePriceView(productImageName: Constants.ImageNames.witch.rawValue,
                                                            priceCount: "20"))
         NSLayoutConstraint.activate([
             productsStackView.topAnchor.constraint(equalTo: topAnchor),
@@ -38,9 +38,9 @@ class PriceView: UIView {
         let productImage = UIImageView(image: UIImage(named: productImageName))
         let priceLabel = UILabel()
         priceLabel.text = " - \(priceCount) "
-        priceLabel.font = UIFont(name: "ArialRoundedMTBold", size: 12)
+        priceLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 12)
         priceLabel.textColor = #colorLiteral(red: 0.3450980392, green: 0.2745098039, blue: 0.4588235294, alpha: 1)
-        let paintImage = UIImageView(image: UIImage(named: "fill"))
+        let paintImage = UIImageView(image: UIImage(named: Constants.ImageNames.fill.rawValue))
         let oneProductStackView = UIStackView(arrangedSubviews: [productImage, priceLabel,
                                                                  paintImage])
         oneProductStackView.alignment = .fill

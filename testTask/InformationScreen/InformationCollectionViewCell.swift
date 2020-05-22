@@ -17,21 +17,12 @@ class InformationCollectionViewCell: UICollectionViewCell {
     }()
     let labelView: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "ArialRoundedMTProCyr", size: 12)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12)
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    let stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fillProportionally
-        stackView.spacing = 20.0
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
     }()
     
     override init(frame: CGRect) {
@@ -42,14 +33,13 @@ class InformationCollectionViewCell: UICollectionViewCell {
         layer.cornerRadius = 8.0
         layer.shadowRadius = 8.0
         layer.shadowOpacity = 0.2
-        stackView.addArrangedSubview(imageView)
-        stackView.addArrangedSubview(labelView)
-        addSubview(stackView)
+        addSubview(imageView)
+        addSubview(labelView)
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: topAnchor, constant: 40),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 25),
+            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25),
+            labelView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     

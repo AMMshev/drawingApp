@@ -32,6 +32,8 @@
 		1CCD3C292476ADDA004AB38A /* InformationCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCD3C282476ADDA004AB38A /* InformationCollectionViewCell.swift */; };
 		1CCD3C2B2476B3EF004AB38A /* DataStructureForInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CCD3C2A2476B3EF004AB38A /* DataStructureForInfo.swift */; };
 		1CEB72CD24742FDA0057ECAC /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CEB72CC24742FDA0057ECAC /* IntroductionViewController.swift */; };
+		1CFF1E192477E9300034B1ED /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFF1E182477E9300034B1ED /* Extensions.swift */; };
+		1CFF1E1B2477FEC10034B1ED /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFF1E1A2477FEC10034B1ED /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		1CCD3C282476ADDA004AB38A /* InformationCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationCollectionViewCell.swift; sourceTree = "<group>"; };
 		1CCD3C2A2476B3EF004AB38A /* DataStructureForInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStructureForInfo.swift; sourceTree = "<group>"; };
 		1CEB72CC24742FDA0057ECAC /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
+		1CFF1E182477E9300034B1ED /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		1CFF1E1A2477FEC10034B1ED /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 				1C11762B24729BD400C0F30C /* AppDelegate.swift */,
 				1C11762D24729BD400C0F30C /* SceneDelegate.swift */,
 				1C7FC4B62475C670006328F9 /* MenuBarView.swift */,
+				1CFF1E182477E9300034B1ED /* Extensions.swift */,
+				1CFF1E1A2477FEC10034B1ED /* Constants.swift */,
 				1C6C0DC62476E2B9008A05AD /* ShopScreen */,
 				1C872B962476AB2E00D3D087 /* InformationScreen */,
 				1CAD100B247343990097F392 /* MainScreen */,
@@ -227,6 +233,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CFF1E192477E9300034B1ED /* Extensions.swift in Sources */,
 				1C6C0DCA2476E307008A05AD /* HeaderView.swift in Sources */,
 				1C10865E247547DD009DB703 /* DataStructureForIntroduction.swift in Sources */,
 				1C7FC4B72475C670006328F9 /* MenuBarView.swift in Sources */,
@@ -249,6 +256,7 @@
 				1C3A7618247715CF00D69B89 /* NavigationController.swift in Sources */,
 				1C5FCDEE2472DAD50009EDC5 /* MainViewController.swift in Sources */,
 				1C3A761C247748BB00D69B89 /* ShopTableViewData.swift in Sources */,
+				1CFF1E1B2477FEC10034B1ED /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

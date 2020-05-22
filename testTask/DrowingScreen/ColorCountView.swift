@@ -13,7 +13,7 @@ class ColorCountView: UIView {
     let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fillProportionally
         stackView.spacing = 30
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -21,15 +21,15 @@ class ColorCountView: UIView {
     
     let fillImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "fill")
+        imageView.image = UIImage(named: Constants.ImageNames.fill.rawValue)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     let colorCountLabel: UILabel = {
         let label = UILabel()
-        label.text = "15 K"
+        label.text = ((UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double)?.stringWithoutZeroFraction ?? "") + " K"
         label.textColor = UIColor(named: "colorCount")
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

@@ -9,10 +9,10 @@
 import Foundation
 
 struct ShopCellModel{
-    let colorCount: Int
+    let colorCount: Double
     let price: String?
     let freeTask: String?
     let bonus: String?
-    let bonusTaskName: String?
-    let stickerName: String?
+    let bonusTaskName: Constants.BonusTasksNames?
+    let stickerName: Constants.StickersNames?
 }

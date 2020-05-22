@@ -23,7 +23,7 @@ class DrawingViewController: UIViewController {
         button.layer.cornerRadius = 25.0
         button.layer.shadowColor = UIColor.gray.cgColor
         button.layer.shadowOffset = CGSize(width: 1.0, height: 1.5)
-        button.setImage(UIImage(named: "back"), for: .normal)
+        button.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.back.rawValue), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.widthAnchor.constraint(equalToConstant: 50).isActive = true
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -72,7 +72,7 @@ class DrawingViewController: UIViewController {
     }()
     let addColorCountButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "addColorCount"), for: .normal)
+        button.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.addColorCount.rawValue), for: .normal)
         button.addTarget(self, action: #selector(addColorButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -111,9 +111,9 @@ class DrawingViewController: UIViewController {
         view.addSubview(colorCountView)
         settingsView.addSubview(settingsStackView)
         colorCountView.stackView.addArrangedSubview(addColorCountButton)
-        settingsVibrantButton = setButton(imageName: "vibra", action: nil)
-        settingsAudioButton = setButton(imageName: "audioon", action: nil)
-        settingsGeneralButton = setButton(imageName: "settingsInactive",
+        settingsVibrantButton = setButton(imageName: Constants.ImageNames.DrowingScreen.vibra.rawValue, action: nil)
+        settingsAudioButton = setButton(imageName: Constants.ImageNames.DrowingScreen.audioon.rawValue, action: nil)
+        settingsGeneralButton = setButton(imageName: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue,
                                           action: #selector(settingsButtonTapped))
         settingsAudioButton.isHidden = true
         settingsVibrantButton.isHidden = true
@@ -156,7 +156,7 @@ class DrawingViewController: UIViewController {
     @objc func settingsButtonTapped() {
         if settingsMenuIsHidden {
             settingsViewHeight.constant = 150
-            settingsGeneralButton.setImage(UIImage(named: "settingsActive"), for: .normal)
+            settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsActive.rawValue), for: .normal)
             self.settingsAudioButton.isHidden = false
             self.settingsVibrantButton.isHidden = false
             UIView.animate(withDuration: 0.3) {
@@ -164,7 +164,7 @@ class DrawingViewController: UIViewController {
             }
         } else {
             settingsViewHeight.constant = 50
-            settingsGeneralButton.setImage(UIImage(named: "settingsInactive"), for: .normal)
+            settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue), for: .normal)
             self.settingsAudioButton.isHidden = true
             self.settingsVibrantButton.isHidden = true
             UIView.animate(withDuration: 0.3, animations: {

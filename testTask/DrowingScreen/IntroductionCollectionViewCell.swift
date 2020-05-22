@@ -18,7 +18,7 @@ class IntroductionCollectionViewCell: UICollectionViewCell {
     
     let pageTitle: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 14)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -26,7 +26,7 @@ class IntroductionCollectionViewCell: UICollectionViewCell {
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "ArialRoundedMTProCyr", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
         label.widthAnchor.constraint(equalToConstant: 180).isActive = true
@@ -42,31 +42,31 @@ class IntroductionCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let effect = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+    let blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
-        effect.frame = bounds
-        effect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        effect.alpha = 0.97
-        addSubview(effect)
+        blurEffect.frame = bounds
+        blurEffect.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffect.alpha = 0.97
+        addSubview(blurEffect)
         addSubview(pageImage)
         addSubview(pageTitle)
         addSubview(descriptionLabel)
         addSubview(priceImageView)
         NSLayoutConstraint.activate([
-            effect.topAnchor.constraint(equalTo: topAnchor),
-            effect.leadingAnchor.constraint(equalTo: leadingAnchor),
-            effect.bottomAnchor.constraint(equalTo: bottomAnchor),
-            effect.trailingAnchor.constraint(equalTo: trailingAnchor),
+            blurEffect.topAnchor.constraint(equalTo: topAnchor),
+            blurEffect.leadingAnchor.constraint(equalTo: leadingAnchor),
+            blurEffect.bottomAnchor.constraint(equalTo: bottomAnchor),
+            blurEffect.trailingAnchor.constraint(equalTo: trailingAnchor),
             pageImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -100),
+            pageImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -60),
             pageTitle.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
+            pageTitle.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 50),
             descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            descriptionLabel.centerYAnchor.constraint(equalTo: centerYAnchor,
-                                                      constant: 60),
+            descriptionLabel.topAnchor.constraint(equalTo: pageTitle.bottomAnchor,
+                                                      constant: 30),
             priceImageView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 15),
             priceImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])

@@ -13,14 +13,14 @@ class InformationScreenViewController: UIViewController {
     let infoLabel: UILabel = {
         let label = UILabel()
         label.text = "INFO"
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
         return label
     }()
     let suggestionsLabel: UILabel = {
         let label = UILabel()
         label.textColor = .gray
         label.text = "SUGGESTIONS"
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
         return label
     }()
     let namesOfTabsStack: UIStackView = {
@@ -38,13 +38,12 @@ class InformationScreenViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         let collectionViewLayout = UICollectionViewFlowLayout()
         collectionViewLayout.minimumLineSpacing = 16.0
-        collectionViewLayout.minimumInteritemSpacing = 16.0
         collectionViewLayout.sectionInset = UIEdgeInsets(top: 30, left: 30,
                                                          bottom: 10, right: 30)
         self.collectionView = UICollectionView(frame: .zero,
                                                collectionViewLayout: collectionViewLayout)
         collectionView.register(InformationCollectionViewCell.self,
-                                forCellWithReuseIdentifier: "informationCell")
+                                forCellWithReuseIdentifier: Constants.CollectionViewCellsID.informationCell.rawValue)
         namesOfTabsStack.addArrangedSubview(infoLabel)
         namesOfTabsStack.addArrangedSubview(suggestionsLabel)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -86,13 +85,13 @@ extension InformationScreenViewController: UICollectionViewDelegate, UICollectio
         cellsData.count
     }
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "informationCell", for: indexPath) as? InformationCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.informationCell.rawValue, for: indexPath) as? InformationCollectionViewCell else { return UICollectionViewCell() }
         let cellData = cellsData[indexPath.item]
         cell.setCellsData(imageName: cellData.imageName, labelText: cellData.labelText)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewSize = collectionView.bounds.size
-        return CGSize(width: (collectionViewSize.width - 76) / 2, height: (collectionViewSize.height - 92) / 3)
+        return CGSize(width: (collectionViewSize.width - 76) / 2, height: (collectionViewSize.width - 76) / 2)
     }
 }

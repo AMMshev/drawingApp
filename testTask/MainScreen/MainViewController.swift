@@ -10,20 +10,18 @@ import UIKit
 
 class MainViewController: UIViewController {
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(SectionTableViewCell.self, forCellReuseIdentifier: "sectionCell")
+        tableView.register(SectionTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCellsID.sectionCell.rawValue)
         return tableView
     }()
-//    var sectionIndex: Int?
-//    var pictureIndex: Int?
     let sections = Sections().sectionsArray
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "EXPLORE"
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -43,11 +41,11 @@ class MainViewController: UIViewController {
     }
     fileprivate func setLayout() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 73),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 72),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 31),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
@@ -61,14 +59,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "sectionCell") as? SectionTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableViewCellsID.sectionCell.rawValue) as? SectionTableViewCell else { return UITableViewCell() }
         cell.cellDelegate = self
-        cell.sectionData = sections[indexPath.row]
+        let sectionData = sections[indexPath.row]
+        cell.setSectionData(sectionName: sectionData.sectionName,
+                            imageName: sectionData.imageName)
+        cell.sectionPictures = sectionData.cellsPictures
         cell.tableViewCellIndex = indexPath.row
         return cell
     }
-    func tableView(_ tableView: UITableView,
-                   heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UIScreen.main.bounds.height / 3.0
     }
 }

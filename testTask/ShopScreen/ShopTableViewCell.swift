@@ -8,7 +8,16 @@
 
 import UIKit
 
+protocol ShopTableViewCellDelegate: class {
+    func buyColor(boughtColorCount: Double) -> Void
+}
+
+protocol shopActionDelegate: class {
+    func balanceCountChanged() -> Void
+}
 class ShopTableViewCell: UITableViewCell {
+    
+    weak open var delegate: ShopTableViewCellDelegate?
     
     private let mainView: UIView = {
         let view = UIView()
@@ -23,11 +32,22 @@ class ShopTableViewCell: UITableViewCell {
         return view
     }()
     private let paintImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "fill"))
+        let imageView = UIImageView(image: UIImage(named: Constants.ImageNames.fill.rawValue))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-    private var countAndBonusStackView = UIStackView()
+    private var countAndBonusStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }()
+    private var colorCountLabel = UILabel()
+    private var bonusLabel = UILabel()
+    private var taskLabel = UILabel()
+    
     private var priceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -45,68 +65,61 @@ class ShopTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 8.5
         return view
     }()
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
+    var colorCount: Double = 0
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        addSubview(mainView)
+        contentView.addSubview(mainView)
         mainView.addSubview(paintImageView)
         mainView.addSubview(countAndBonusStackView)
-        addSubview(stickerView)
+        contentView.addSubview(stickerView)
         mainView.addSubview(priceButton)
         selectionStyle = .none
         NSLayoutConstraint.activate([
-            mainView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            mainView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            mainView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            mainView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             paintImageView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
-            paintImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            paintImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             countAndBonusStackView.leadingAnchor.constraint(equalTo: paintImageView.trailingAnchor, constant: 15),
             countAndBonusStackView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             priceButton.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             priceButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor,
                                                   constant: -15),
-            stickerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stickerView.topAnchor.constraint(equalTo: topAnchor)
+            stickerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stickerView.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
-        
         priceButton.addTarget(self, action: #selector(priceButtonTapped), for: .touchUpInside)
+        countAndBonusStackView.addArrangedSubview(colorCountLabel)
+        countAndBonusStackView.addArrangedSubview(bonusLabel)
+        countAndBonusStackView.addArrangedSubview(taskLabel)
     }
     
-    func setColorCountAndBonusStack(colorCount: Int, freeTask: String?,
-                                    bonus: String?) {
-        countAndBonusStackView.translatesAutoresizingMaskIntoConstraints = false
-        let colorCountLabel = UILabel()
-        colorCountLabel.text = String(colorCount)
-        colorCountLabel.font = UIFont(name: "Arial Rounded MT Bold", size: 24)
-        colorCountLabel.textColor = UIColor(named: "colorCount")
-        countAndBonusStackView.addArrangedSubview(colorCountLabel)
+    func setColorCountAndBonusStack(freeTask: String?, bonus: String?) {
+        
+        colorCountLabel.text = String(colorCount.stringWithoutZeroFraction)
+        colorCountLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue,
+                                      size: 24)
+        colorCountLabel.textColor = UIColor(named: Constants.ImageNames.colorCount.rawValue)
         if let bonus = bonus {
-            let bonusLabel = UILabel()
             bonusLabel.text = bonus
             bonusLabel.textColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
-            bonusLabel.font = UIFont(name: "ArialRoundedMTProCyr", size: 10)
-            countAndBonusStackView.addArrangedSubview(bonusLabel)
+            bonusLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue,
+                                     size: 10)
         }
         if let freeTask = freeTask {
-            let taskLabel = UILabel()
             taskLabel.text = freeTask
-            taskLabel.font = UIFont(name: "ArialRoundedMTProCyr", size: 10)
-            countAndBonusStackView.addArrangedSubview(taskLabel)
+            taskLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue,
+                                    size: 10)
         }
-        countAndBonusStackView.axis = .vertical
-        countAndBonusStackView.alignment = .fill
-        countAndBonusStackView.distribution = .fill
     }
     
-    func setPriceAndSticker(price: String?, bonusTaskName: String?,
-                            stickerName: String?) {
+    func setPriceAndSticker(price: String?, bonusTaskName: Constants.BonusTasksNames?,
+                            stickerName: Constants.StickersNames?) {
         if let price = price {
             let buttonsTitle = NSAttributedString(string: price, attributes: [NSAttributedString.Key.font:
-                UIFont(name: "ArialRoundedMTProCyr", size: 12) ??
-                    UIFont.systemFont(ofSize: 12)])
+                UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12)
+                    ?? UIFont.systemFont(ofSize: 12)])
             priceButton.setAttributedTitle(buttonsTitle, for: .normal)
             priceButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
             priceButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
@@ -116,9 +129,6 @@ class ShopTableViewCell: UITableViewCell {
             priceButton.layer.cornerRadius = 15.0
             priceButton.layer.shadowOpacity = 0.1
         }
-        if let bonusTaskImageName = bonusTaskName {
-            priceButton.setImage(UIImage(named: bonusTaskImageName), for: .normal)
-        }
         if let stickerName = stickerName {
             let stickerTitle = UILabel()
             stickerTitle.translatesAutoresizingMaskIntoConstraints = false
@@ -126,42 +136,36 @@ class ShopTableViewCell: UITableViewCell {
             stickerTitle.centerYAnchor.constraint(equalTo: stickerView.centerYAnchor).isActive = true
             stickerTitle.centerXAnchor.constraint(equalTo: stickerView.centerXAnchor).isActive = true
             stickerTitle.textColor = .white
-            let title = NSAttributedString(string: stickerName,
-                                           attributes: [NSAttributedString.Key.font:
-                                            UIFont(name: "ArialRoundedMTProCyr", size: 6) ?? UIFont.systemFont(ofSize: 6)])
+            let title = NSAttributedString(string: stickerName.rawValue,
+                                           attributes: [NSAttributedString.Key.font:UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 6) ?? UIFont.systemFont(ofSize: 6)])
+            stickerTitle.attributedText = title
             switch stickerName {
-            case "unlock gift":
-                stickerTitle.attributedText = title
+            case .unlockGift:
                 stickerView.backgroundColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
-            case "most popular":
-                stickerTitle.attributedText = title
+            case .mostPopular:
                 stickerView.backgroundColor = #colorLiteral(red: 0.9764705882, green: 0.8549019608, blue: 0.3607843137, alpha: 1)
-            case "best value":
-                stickerTitle.attributedText = title
+            case .bestValue:
                 stickerView.backgroundColor = #colorLiteral(red: 1, green: 0.4, blue: 0.4, alpha: 1)
-            default:
-                stickerTitle.text = stickerName
             }
         }
         if let bonusTaskName = bonusTaskName {
             priceButton.backgroundColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
-            let buttonsTitle = NSAttributedString(string: bonusTaskName, attributes: [NSAttributedString.Key.font:
-                UIFont(name: "ArialRoundedMTProCyr", size: 12) ?? UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.white])
+            let buttonsTitle = NSAttributedString(string: bonusTaskName.rawValue, attributes: [NSAttributedString.Key.font:
+                UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12) ?? UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.white])
             priceButton.setAttributedTitle(buttonsTitle, for: .normal)
+            priceButton.setTitle(bonusTaskName.rawValue, for: .normal)
             switch bonusTaskName {
-            case " Watch":
-                priceButton.setImage(UIImage(named: "watch"), for: .normal)
-                priceButton.setTitle(bonusTaskName, for: .normal)
-            case " Join":
-                priceButton.setImage(UIImage(named: "join"), for: .normal)
-                priceButton.setTitle(bonusTaskName, for: .normal)
-            default:
-                priceButton.setTitle(bonusTaskName, for: .normal)
+            case .watch:
+                priceButton.setImage(UIImage(named: Constants.ImageNames.watch.rawValue),
+                                     for: .normal)
+            case .join:
+                priceButton.setImage(UIImage(named: Constants.ImageNames.join.rawValue),
+                                     for: .normal)
             }
         }
     }
     
     @objc func priceButtonTapped() {
-        print("button tapped")
+        delegate?.buyColor(boughtColorCount: colorCount)
     }
 }

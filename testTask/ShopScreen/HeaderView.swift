@@ -12,7 +12,7 @@ class HeaderView: UIView {
     
     let closeButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "cancel"), for: .normal)
+        button.setImage(UIImage(named: Constants.ImageNames.cancel.rawValue), for: .normal)
         button.backgroundColor = .white
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.widthAnchor.constraint(equalToConstant: 50).isActive = true
@@ -23,9 +23,9 @@ class HeaderView: UIView {
         button.layer.shadowColor = UIColor.gray.cgColor
         return button
     }()
-    let moreColorLabel: UILabel = {
+    private let moreColorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "ArialRoundedMTBold", size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
         label.text = "MORE COLORS"
         return label
     }()
@@ -47,7 +47,7 @@ class HeaderView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    let productsPriceView: PriceView = {
+    private let productsPriceView: PriceView = {
         let view = PriceView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white
