@@ -85,7 +85,9 @@ extension MainViewController: CollectionViewCellDelegate {
     
     func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: SectionTableViewCell) {
         let sectionIndex = didTappedInTableViewCell.tableViewCellIndex ?? 0
-        let drawingScreen = DrawingViewController(sectionIndex: sectionIndex, pictureIndex: collectionCellIndex, nibName: nil, bundle: nil)
+        let drawingScreen = DrawingViewController(sectionIndex: sectionIndex,
+                                                  pictureIndex: collectionCellIndex,
+                                                  nibName: nil, bundle: nil)
         navigationController?.pushViewController(drawingScreen, animated: true)
     }
 }

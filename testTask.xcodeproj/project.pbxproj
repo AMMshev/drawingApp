@@ -94,18 +94,12 @@
 		1C1086632475902C009DB703 /* DrowingScreen */ = {
 			isa = PBXGroup;
 			children = (
-				1CAD100C247345420097F392 /* DrawingViewController.swift */,
-				1C1164A92479D97100665AF3 /* ChoisingColorView.swift */,
-				1C1164AB2479DE8700665AF3 /* ChoisingColorCollectionViewCell.swift */,
-				1C1164A32479C3F000665AF3 /* SettingsView.swift */,
-				1C872B9224769B4200D3D087 /* ColorCountView.swift */,
-				1C7F123E247896E100C6D29B /* DrawingView.swift */,
-				1C1164AD2479F8D800665AF3 /* ColorsForPicture.swift */,
-				1C6FF185247962BC00433497 /* ColorsPathsGrayLightBlue.swift */,
-				1C6FF187247968EE00433497 /* ColorsPathsGreenBrownBlueRed.swift */,
-				1CEB72CC24742FDA0057ECAC /* IntroductionViewController.swift */,
-				1C10865B24754592009DB703 /* IntroductionCollectionViewCell.swift */,
+				1C4858702479FFB500FE59B1 /* DrowingImageData */,
+				1C48586D2479FF2400FE59B1 /* DrawingViews */,
+				1C48586F2479FF4500FE59B1 /* IntroductionViews */,
 				1C10865D247547DD009DB703 /* DataStructureForIntroduction.swift */,
+				1CAD100C247345420097F392 /* DrawingViewController.swift */,
+				1CEB72CC24742FDA0057ECAC /* IntroductionViewController.swift */,
 			);
 			path = DrowingScreen;
 			sourceTree = "<group>";
@@ -129,32 +123,70 @@
 		1C11762A24729BD400C0F30C /* testTask */ = {
 			isa = PBXGroup;
 			children = (
-				1C3A7617247715CF00D69B89 /* NavigationController.swift */,
+				1C37D8232473494A000C39C5 /* Assets.xcassets */,
 				1C11762B24729BD400C0F30C /* AppDelegate.swift */,
 				1C11762D24729BD400C0F30C /* SceneDelegate.swift */,
-				1C7FC4B62475C670006328F9 /* MenuBarView.swift */,
+				1C11763624729BD500C0F30C /* LaunchScreen.storyboard */,
+				1C11763924729BD500C0F30C /* Info.plist */,
 				1CFF1E182477E9300034B1ED /* Extensions.swift */,
 				1CFF1E1A2477FEC10034B1ED /* Constants.swift */,
+				1C485871247A007F00FE59B1 /* NavigationController */,
 				1C6C0DC62476E2B9008A05AD /* ShopScreen */,
 				1C872B962476AB2E00D3D087 /* InformationScreen */,
 				1CAD100B247343990097F392 /* MainScreen */,
 				1C1086632475902C009DB703 /* DrowingScreen */,
-				1C37D8232473494A000C39C5 /* Assets.xcassets */,
-				1C11763624729BD500C0F30C /* LaunchScreen.storyboard */,
-				1C11763924729BD500C0F30C /* Info.plist */,
 			);
 			path = testTask;
+			sourceTree = "<group>";
+		};
+		1C48586D2479FF2400FE59B1 /* DrawingViews */ = {
+			isa = PBXGroup;
+			children = (
+				1C1164A92479D97100665AF3 /* ChoisingColorView.swift */,
+				1C1164AB2479DE8700665AF3 /* ChoisingColorCollectionViewCell.swift */,
+				1C872B9224769B4200D3D087 /* ColorCountView.swift */,
+				1C7F123E247896E100C6D29B /* DrawingView.swift */,
+				1C1164A32479C3F000665AF3 /* SettingsView.swift */,
+			);
+			path = DrawingViews;
+			sourceTree = "<group>";
+		};
+		1C48586F2479FF4500FE59B1 /* IntroductionViews */ = {
+			isa = PBXGroup;
+			children = (
+				1C10865B24754592009DB703 /* IntroductionCollectionViewCell.swift */,
+			);
+			path = IntroductionViews;
+			sourceTree = "<group>";
+		};
+		1C4858702479FFB500FE59B1 /* DrowingImageData */ = {
+			isa = PBXGroup;
+			children = (
+				1C6FF187247968EE00433497 /* ColorsPathsGreenBrownBlueRed.swift */,
+				1C6FF185247962BC00433497 /* ColorsPathsGrayLightBlue.swift */,
+				1C1164AD2479F8D800665AF3 /* ColorsForPicture.swift */,
+			);
+			path = DrowingImageData;
+			sourceTree = "<group>";
+		};
+		1C485871247A007F00FE59B1 /* NavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				1C3A7617247715CF00D69B89 /* NavigationController.swift */,
+				1C7FC4B62475C670006328F9 /* MenuBarView.swift */,
+			);
+			path = NavigationController;
 			sourceTree = "<group>";
 		};
 		1C6C0DC62476E2B9008A05AD /* ShopScreen */ = {
 			isa = PBXGroup;
 			children = (
-				1C6C0DC72476E2DC008A05AD /* ShopViewController.swift */,
 				1C3A76192477478100D69B89 /* ShopCellModel.swift */,
 				1C3A761B247748BB00D69B89 /* ShopTableViewData.swift */,
 				1C3A76152477130800D69B89 /* ShopTableViewCell.swift */,
 				1C3A7613247702DE00D69B89 /* PriceView.swift */,
 				1C6C0DC92476E307008A05AD /* HeaderView.swift */,
+				1C6C0DC72476E2DC008A05AD /* ShopViewController.swift */,
 			);
 			path = ShopScreen;
 			sourceTree = "<group>";

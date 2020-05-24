@@ -73,7 +73,7 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
                        bonusTask: cellData.bonusTaskName,
                        sticker: cellData.stickerName)
         cell.delegate = self
-        cell.parantDelegate = self.presentingViewController?.children.last as? DrawingViewController
+        cell.parantVCDelegate = self.presentingViewController?.children.last as? DrawingViewController
         return cell
     }
     

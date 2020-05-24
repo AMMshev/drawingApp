@@ -18,7 +18,7 @@ protocol shopActionDelegate: class {
 class ShopTableViewCell: UITableViewCell {
     
     weak open var delegate: ShopTableViewCellDelegate?
-    weak open var parantDelegate: ShopTableViewCellDelegate?
+    weak open var parantVCDelegate: ShopTableViewCellDelegate?
     
     private let mainView: UIView = {
         let view = UIView()
@@ -171,6 +171,6 @@ class ShopTableViewCell: UITableViewCell {
     
     @objc func priceButtonTapped() {
         delegate?.buyColor(boughtColorCount: colorCount)
-        parantDelegate?.buyColor(boughtColorCount: colorCount)
+        parantVCDelegate?.buyColor(boughtColorCount: colorCount)
     }
 }
