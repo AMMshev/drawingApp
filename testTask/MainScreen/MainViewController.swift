@@ -25,6 +25,15 @@ class MainViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
@@ -62,8 +71,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Constants.TableViewCellsID.sectionCell.rawValue) as? SectionTableViewCell else { return UITableViewCell() }
         cell.cellDelegate = self
         let sectionData = sections[indexPath.row]
-        cell.addToCell(section: sectionData.sectionName,
-                            image: sectionData.imageName)
+        cell.addToCell(section: sectionData.sectionName, image: sectionData.imageName)
         cell.sectionPictures = sectionData.cellsPictures
         cell.tableViewCellIndex = indexPath.row
         return cell
@@ -75,7 +83,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension MainViewController: CollectionViewCellDelegate {
     
-    func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: TableViewCell) {
+    func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: SectionTableViewCell) {
         let sectionIndex = didTappedInTableViewCell.tableViewCellIndex ?? 0
         let drawingScreen = DrawingViewController(sectionIndex: sectionIndex, pictureIndex: collectionCellIndex, nibName: nil, bundle: nil)
         navigationController?.pushViewController(drawingScreen, animated: true)

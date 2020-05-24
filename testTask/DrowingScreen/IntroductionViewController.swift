@@ -106,9 +106,9 @@ extension IntroductionViewController: UICollectionViewDelegate, UICollectionView
                                                             for: indexPath) as? IntroductionCollectionViewCell else { return UICollectionViewCell() }
         let pageData = introductionScreenData[indexPath.row]
         cell.addToPage(image: pageData.pageImageName,
-                         title: pageData.pageTitle,
-                         description: pageData.pageDescription,
-                         priceImage: pageData.priceImageName)
+                       title: pageData.pageTitle,
+                       description: pageData.pageDescription,
+                       priceImage: pageData.priceImageName)
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

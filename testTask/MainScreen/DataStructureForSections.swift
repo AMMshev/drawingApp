@@ -21,11 +21,9 @@ struct Sections {
                      cellsPictures: ["elephant", "rabbit", "wolf"]),
         SectionModel(sectionName: "Flowers",
                      imageName: "flowers",
-                     cellsPictures: ["firstFlower", "secondFlower",
-                                     "thirdFlower"]),
+                     cellsPictures: ["firstFlower", "secondFlower", "thirdFlower"]),
         SectionModel(sectionName: "Birds",
                      imageName: "birds",
-                     cellsPictures: ["firstBird", "secondBird",
-                                     "thirdBird"])
+                     cellsPictures: ["firstBird", "secondBird", "thirdBird"])
     ]
 }

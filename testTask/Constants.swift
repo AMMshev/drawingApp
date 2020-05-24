@@ -21,6 +21,7 @@ enum Constants {
         case informationCell
         case sectionCollectionCell
         case introductionCell
+        case choisingColorCell
     }
     enum UserDafaultsKeys: String {
         case balance
@@ -61,5 +62,13 @@ enum Constants {
     enum BonusTasksNames: String {
         case watch = " Watch"
         case join = " Join"
+    }
+    enum DrawingColorNames: String {
+        case gray
+        case lightBlue
+        case green
+        case brown
+        case blue
+        case red
     }
 }

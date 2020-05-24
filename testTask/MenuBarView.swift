@@ -22,25 +22,25 @@ class MenuBarView: UIView {
         return view
     }()
     private var mainMenuButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(named: Constants.ImageNames.MenuBar.birdActive.rawValue), for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
         return button
     }()
     private var easelButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(named: Constants.ImageNames.MenuBar.paint.rawValue), for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
         return button
     }()
     private var giftButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(named: Constants.ImageNames.MenuBar.gift.rawValue), for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
         return button
     }()
     private var infoButton: UIButton = {
-       let button = UIButton()
+        let button = UIButton()
         button.setImage(UIImage(named: Constants.ImageNames.MenuBar.info.rawValue), for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
         return button

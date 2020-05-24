@@ -49,7 +49,7 @@ class ShopTableViewCell: UITableViewCell {
         let label = UILabel()
         
         label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue,
-                                      size: 24)
+                            size: 24)
         label.textColor = UIColor(named: Constants.ImageNames.colorCount.rawValue)
         return label
     }()
@@ -119,7 +119,7 @@ class ShopTableViewCell: UITableViewCell {
     }
     
     func addToCell(price: String?, bonusTask: Constants.BonusTasksNames?,
-                            sticker: Constants.StickersNames?) {
+                   sticker: Constants.StickersNames?) {
         if let price = price {
             let buttonsTitle = NSAttributedString(string: price, attributes: [NSAttributedString.Key.font:
                 UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12)

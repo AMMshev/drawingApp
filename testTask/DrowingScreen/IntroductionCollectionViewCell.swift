@@ -37,7 +37,7 @@ class IntroductionCollectionViewCell: UICollectionViewCell {
     }()
     
     let priceImageView: UIImageView = {
-       let view = UIImageView()
+        let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -66,7 +66,7 @@ class IntroductionCollectionViewCell: UICollectionViewCell {
             pageTitle.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 50),
             descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: pageTitle.bottomAnchor,
-                                                      constant: 30),
+                                                  constant: 30),
             priceImageView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 15),
             priceImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])

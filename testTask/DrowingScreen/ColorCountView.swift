@@ -38,6 +38,7 @@ class ColorCountView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
+        translatesAutoresizingMaskIntoConstraints = false
         stackView.addArrangedSubview(fillImageView)
         stackView.addArrangedSubview(colorCountLabel)
         addSubview(stackView)
@@ -47,6 +48,11 @@ class ColorCountView: UIView {
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
         ])
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
+        layer.shadowRadius = 25.0
+        layer.cornerRadius = 25.0
+        layer.shadowOpacity = 0.2
     }
     
     func setColorCount(value: Double) {

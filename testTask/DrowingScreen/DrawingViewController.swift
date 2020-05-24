@@ -10,11 +10,19 @@ import UIKit
 
 class DrawingViewController: UIViewController {
     
+    let colors = ColorsForPicture().colors
+    var currentColor: Constants.DrawingColorNames = .gray
     let sections = Sections().sectionsArray
     var sectionIndex: Int
     var pictureIndex: Int
+    let drawingView: DrawingView = {
+        let view = DrawingView()
+        view.heightAnchor.constraint(equalToConstant: 400).isActive = true
+        return view
+    }()
+    let pinchGesture = UIPinchGestureRecognizer()
+    let panGesture = UIPanGestureRecognizer()
     var settingsMenuIsHidden = true
-    
     let backButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .white
@@ -31,43 +39,20 @@ class DrawingViewController: UIViewController {
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
-    let settingsStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    let settingsView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 25.0
-        view.layer.shadowRadius = 25.0
-        view.layer.shadowOpacity = 0.2
-        view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.shadowOffset = CGSize(width: 1.5, height: 1.5)
+    let settingsView: SettingsView = {
+        let view = SettingsView()
         view.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        view.backgroundColor = .white
         return view
     }()
     var settingsViewHeight = NSLayoutConstraint()
-    var settingsGeneralButton = UIButton()
-    var settingsVibrantButton = UIButton()
-    var settingsAudioButton = UIButton()
-    let drowingImage: UIImageView = {
+    
+    let pickedImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     let colorCountView: ColorCountView = {
         let view = ColorCountView()
-        view.layer.shadowColor = UIColor.gray.cgColor
-        view.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
-        view.layer.shadowRadius = 25.0
-        view.layer.cornerRadius = 25.0
-        view.layer.shadowOpacity = 0.2
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return view
     }()
@@ -78,6 +63,7 @@ class DrawingViewController: UIViewController {
         return button
     }()
     var introductionVC = IntroductionViewController()
+    var choisingColorView = ChoisingColorView()
     
     init(sectionIndex: Int, pictureIndex: Int, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self.sectionIndex = sectionIndex
@@ -89,6 +75,7 @@ class DrawingViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubiews()
@@ -98,6 +85,35 @@ class DrawingViewController: UIViewController {
         let navigationController = UIApplication.shared.windows[0].rootViewController as? NavigationController
         navigationController?.menuBarView.isHidden = true
     }
+}
+
+extension DrawingViewController {
+    @objc func pinchGesture(sender: UIPinchGestureRecognizer) {
+        guard let zoomView = sender.view else { return }
+        if (sender.state == .began || sender.state == .changed) && zoomView.transform.d >= 0.9 {
+            zoomView.transform = zoomView.transform.scaledBy(x: sender.scale, y: sender.scale)
+            sender.scale = 1
+            if zoomView.transform.d < 0.9 {
+                zoomView.transform.d = 0.9
+                zoomView.transform.a = 0.9
+            }
+        }
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let point = touches.first?.location(in: drawingView) else { return }
+        drawingView.fillColor(at: point, chosenColor: currentColor)
+        drawingView.setNeedsDisplay()
+    }
+    
+    @objc func panGesture(sender: UIPanGestureRecognizer) {
+        guard let movableView = sender.view else { return }
+        let translation = sender.translation(in: sender.view?.superview)
+        if sender.state == .began || sender.state == .changed {
+            movableView.center = CGPoint(x: movableView.center.x + translation.x, y: movableView.center.y + translation.y)
+            sender.setTranslation(.zero, in: sender.view?.superview)
+        }
+    }
     
     fileprivate func setupChildVC() {
         introductionVC.delegate = self
@@ -106,75 +122,73 @@ class DrawingViewController: UIViewController {
         introductionVC.willMove(toParent: self)
     }
     fileprivate func setupSubiews() {
-        view.addSubview(drowingImage)
+        view.addSubview(pickedImage)
         view.addSubview(backButton)
         view.addSubview(settingsView)
         view.addSubview(colorCountView)
-        settingsView.addSubview(settingsStackView)
-        settingsVibrantButton = addToButton(image: Constants.ImageNames.DrowingScreen.vibra.rawValue, action: nil)
-        settingsAudioButton = addToButton(image: Constants.ImageNames.DrowingScreen.audioon.rawValue, action: nil)
-        settingsGeneralButton = addToButton(image: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue,
-                                          action: #selector(settingsButtonTapped))
-        settingsAudioButton.isHidden = true
-        settingsVibrantButton.isHidden = true
+        view.addSubview(drawingView)
+        view.addSubview(choisingColorView)
+        choisingColorView.collectionView?.dataSource = self
+        choisingColorView.collectionView?.delegate = self
+        pinchGesture.addTarget(self, action: #selector(pinchGesture(sender:)))
+        panGesture.addTarget(self, action: #selector(panGesture(sender:)))
+        drawingView.addGestureRecognizer(pinchGesture)
+        drawingView.addGestureRecognizer(panGesture)
         colorCountView.addToStack(element: addColorCountButton)
-        settingsStackView.addArrangedSubview(settingsGeneralButton)
-        settingsStackView.addArrangedSubview(settingsVibrantButton)
-        settingsStackView.addArrangedSubview(settingsAudioButton)
+        settingsView.settingsGeneralButton.addTarget(self, action: #selector(settingsButtonTapped),
+                                                     for: .touchUpInside)
         settingsViewHeight = settingsView.heightAnchor.constraint(equalToConstant: 50)
         NSLayoutConstraint.activate([
             settingsViewHeight,
-            drowingImage.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            drowingImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            drowingImage.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-            drowingImage.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+            pickedImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            pickedImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            pickedImage.widthAnchor.constraint(equalToConstant: 100),
+            pickedImage.heightAnchor.constraint(equalToConstant: 100),
             backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 15),
-            settingsStackView.topAnchor.constraint(equalTo: settingsView.topAnchor),
-            settingsStackView.leadingAnchor.constraint(equalTo: settingsView.leadingAnchor),
-            settingsStackView.bottomAnchor.constraint(equalTo: settingsView.bottomAnchor),
-            settingsStackView.trailingAnchor.constraint(equalTo: settingsView.trailingAnchor),
             settingsView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
             settingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
                                                    constant: -15),
             colorCountView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            colorCountView.centerYAnchor.constraint(equalTo: backButton.centerYAnchor)
+            colorCountView.centerYAnchor.constraint(equalTo: backButton.centerYAnchor),
+            drawingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            drawingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            drawingView.widthAnchor.constraint(equalToConstant: 400),
+            choisingColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+            choisingColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            choisingColorView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
+                                                        constant: 25),
+            choisingColorView.heightAnchor.constraint(equalToConstant: 50)
         ])
-        drowingImage.image = UIImage(named: sections[sectionIndex].cellsPictures[pictureIndex])
+        pickedImage.image = UIImage(named: sections[sectionIndex].cellsPictures[pictureIndex])
     }
     
-    func addToButton(image: String, action: Selector?) -> UIButton {
-        let button = UIButton()
-        button.setImage(UIImage(named: image), for: .normal)
-        if let action = action {
-            button.addTarget(self, action: action, for: .touchUpInside)
-        }
-        return button
-    }
-    @objc func backButtonTapped() {
+    @objc fileprivate func backButtonTapped() {
         navigationController?.popToRootViewController(animated: true)
     }
-    @objc func settingsButtonTapped() {
-        if settingsMenuIsHidden {
-            settingsViewHeight.constant = 150
-            settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsActive.rawValue), for: .normal)
-            self.settingsAudioButton.isHidden = false
-            self.settingsVibrantButton.isHidden = false
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
-        } else {
-            settingsViewHeight.constant = 50
-            settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue), for: .normal)
-            self.settingsAudioButton.isHidden = true
-            self.settingsVibrantButton.isHidden = true
-            UIView.animate(withDuration: 0.3, animations: {
-                self.view.layoutIfNeeded()
-            })
+    @objc fileprivate func settingsButtonTapped() {
+        switch settingsMenuIsHidden {
+        case true:
+            resizeSettingsMenu(to: 150, hideViews: false)
+        case false:
+            resizeSettingsMenu(to: 50, hideViews: true)
         }
         settingsMenuIsHidden = !settingsMenuIsHidden
     }
-    
+    fileprivate func resizeSettingsMenu(to height: CGFloat, hideViews: Bool) {
+        settingsViewHeight.constant = height
+        switch hideViews {
+        case true:
+            settingsView.settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue), for: .normal)
+        case false:
+            settingsView.settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsActive.rawValue), for: .normal)
+        }
+        settingsView.settingsAudioButton.isHidden = hideViews
+        settingsView.settingsVibrantButton.isHidden = hideViews
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
+        }
+    }
     @objc func addColorButtonTapped() {
         let shopVC = ShopViewController(nibName: nil, bundle: nil)
         present(shopVC, animated: true, completion: nil)
@@ -182,7 +196,6 @@ class DrawingViewController: UIViewController {
 }
 
 extension DrawingViewController: IntroductionViewCellDelegate {
-    
     func hideIntroduction(onLeftSide: Bool) {
         var xTranslation = UIScreen.main.bounds.width
         if onLeftSide == false {
@@ -204,5 +217,26 @@ extension DrawingViewController: ShopTableViewCellDelegate {
     func buyColor(boughtColorCount: Double) {
         let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0)
         colorCountView.setColorCount(value: newBalance)
+    }
+}
+
+extension DrawingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        colors.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CollectionViewCellsID.choisingColorCell.rawValue, for: indexPath) as? ChoisingColorCollectionViewCell else { return UICollectionViewCell() }
+        cell.colorNumerLabel.text = String(indexPath.item + 1)
+        cell.backgroundColor = UIColor(named: colors[indexPath.item].rawValue)
+        return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.x)
+        let page = Int(scrollView.contentOffset.x / 50)
+        if page >= 0 && page <= colors.count - 1 {
+            currentColor = colors[page]
+        }
     }
 }

@@ -70,8 +70,8 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         cell.colorCount = cellData.colorCount
         cell.addToStack(freeTask: cellData.freeTask, bonus: cellData.bonus)
         cell.addToCell(price: cellData.price,
-                                bonusTask: cellData.bonusTaskName,
-                                sticker: cellData.stickerName)
+                       bonusTask: cellData.bonusTaskName,
+                       sticker: cellData.stickerName)
         cell.delegate = self
         cell.parantDelegate = self.presentingViewController?.children.last as? DrawingViewController
         return cell

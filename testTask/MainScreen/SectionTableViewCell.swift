@@ -9,18 +9,15 @@
 import UIKit
 
 protocol CollectionViewCellDelegate: class {
-    func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: TableViewCell)
+    func collectionView(collectionviewcell: UICollectionViewCell?, collectionCellIndex: Int, didTappedInTableViewCell: SectionTableViewCell)
 }
 
-class TableViewCell: UITableViewCell {
-    var tableViewCellIndex: Int?
-    var sectionPictures: [String]?
-}
-
-class SectionTableViewCell: TableViewCell {
+class SectionTableViewCell: UITableViewCell {
     
     private var collectionView: UICollectionView?
     weak open var cellDelegate: CollectionViewCellDelegate?
+    var tableViewCellIndex: Int?
+    var sectionPictures: [String]?
     
     private var sectionImageView: UIImageView = {
         let view = UIImageView()

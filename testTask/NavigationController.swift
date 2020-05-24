@@ -19,6 +19,8 @@ class NavigationController: UINavigationController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationBar.isHidden = true
+        view.backgroundColor = UIColor.white
         view.addSubview(menuBarView)
         NSLayoutConstraint.activate([
             menuBarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

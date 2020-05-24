@@ -23,9 +23,9 @@ class PriceView: UIView {
         super.init(frame: frame)
         addSubview(productsStackView)
         productsStackView.addArrangedSubview(addToStack(productImage: Constants.ImageNames.witch.rawValue,
-                                                           priceCount: "1"))
+                                                        priceCount: "1"))
         productsStackView.addArrangedSubview(addToStack(productImage: Constants.ImageNames.witch.rawValue,
-                                                           priceCount: "20"))
+                                                        priceCount: "20"))
         NSLayoutConstraint.activate([
             productsStackView.topAnchor.constraint(equalTo: topAnchor),
             productsStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
