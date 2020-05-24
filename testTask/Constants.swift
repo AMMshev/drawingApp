@@ -20,7 +20,7 @@ enum Constants {
     enum CollectionViewCellsID: String {
         case informationCell
         case sectionCollectionCell
-        case introductionCell
+        case trainingCell
         case choisingColorCell
     }
     enum UserDafaultsKeys: String {
@@ -49,6 +49,11 @@ enum Constants {
             case audioon
             case settingsActive
             case settingsInactive
+            enum Boosters: String {
+                case ananas
+                case wand
+                case loupe
+            }
         }
         enum MainScreen: String {
             case more

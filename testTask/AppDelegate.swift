@@ -16,8 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         if UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double == nil {
-            UserDefaults.standard.set(15.0, forKey: Constants.UserDafaultsKeys.balance.rawValue)
-            print("standart balance")
+            UserDefaults.standard.set(20000.0, forKey: Constants.UserDafaultsKeys.balance.rawValue)
         }
         return true
     }
