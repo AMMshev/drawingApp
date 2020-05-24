@@ -231,6 +231,10 @@ extension DrawingViewController: UICollectionViewDelegate, UICollectionViewDataS
         cell.backgroundColor = UIColor(named: colors[indexPath.item].rawValue)
         return cell
     }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        currentColor = colors[indexPath.item]
+        collectionView.scrollToItem(at: indexPath, at: .left, animated: true)
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print(scrollView.contentOffset.x)
