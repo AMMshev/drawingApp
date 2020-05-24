@@ -10,7 +10,7 @@ import UIKit
 
 class DrawingView: UIView {
     
-    fileprivate let imageView = UIImageView(image: UIImage(named: "backgroundImage"))
+    fileprivate let imageView = UIImageView(image: UIImage(named: Constants.ImageNames.DrowingScreen.backgroundImage.rawValue))
     fileprivate var grayColorPathsArray: [UIBezierPath] = []
     fileprivate var lightblueColorPathsArray: [UIBezierPath] = []
     fileprivate var greenColorPathsArray: [UIBezierPath] = []
@@ -91,7 +91,7 @@ class DrawingView: UIView {
         }
         setNeedsDisplay()
     }
-    func fillAllSegments(of color: Constants.DrawingColorNames, segments: [() -> UIBezierPath]) {
+    func fillAll(segments: [() -> UIBezierPath], of color: Constants.DrawingColorNames) {
         switch color {
         case .gray:
             grayColorPathsArray.removeAll()

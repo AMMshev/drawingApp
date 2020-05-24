@@ -47,7 +47,7 @@ class ShopHeaderView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    fileprivate let productsPriceView: ShopPriceView = {
+    let productsPriceView: ShopPriceView = {
         let view = ShopPriceView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .white

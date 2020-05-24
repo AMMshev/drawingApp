@@ -17,6 +17,11 @@ struct ShopCellModel{
     let stickerName: Constants.StickersNames?
 }
 
+struct ShopBoostersPriceModel {
+    let boosterImageName: String
+    let boosterPrice: String
+}
+
 struct ShopData {
     let cellDataArray = [
         ShopCellModel(colorCount: 20.0, price: nil, freeTask: "watch free video", bonus: nil,
@@ -32,5 +37,11 @@ struct ShopData {
                       bonus: "+ 5000 free bonus", bonusTaskName: nil, stickerName: nil),
         ShopCellModel(colorCount: 50000.0, price: "$23.99", freeTask: nil, bonus: "+ 5000 free bonus", bonusTaskName: nil, stickerName: nil),
         ShopCellModel(colorCount: 150000.0, price: "$49.99", freeTask: nil, bonus: "+ 100 000 free bonus", bonusTaskName: nil, stickerName: .bestValue)
+    ]
+    let boostersData = [
+        ShopBoostersPriceModel(boosterImageName: Constants.ImageNames.witch .rawValue,
+                           boosterPrice: "1"),
+        ShopBoostersPriceModel(boosterImageName: Constants.ImageNames.smile .rawValue,
+                           boosterPrice: "20"),
     ]
 }

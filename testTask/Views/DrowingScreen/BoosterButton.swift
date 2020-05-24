@@ -63,7 +63,7 @@ class BoosterButton: UIButton {
         ])
         
     }
-    func choseBooster(type: Constants.ImageNames.DrowingScreen.Boosters) {
+    func chooseBooster(type: Constants.ImageNames.DrowingScreen.Boosters) {
         setImage(UIImage(named: type.rawValue), for: .normal)
         switch type {
         case .ananas:
@@ -77,7 +77,7 @@ class BoosterButton: UIButton {
         case .wand:
             rightTopButton.backgroundColor = .purple
             let title = NSAttributedString(string: "i", attributes: [
-                NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 6) ?? UIFont.systemFont(ofSize: 6),
+                NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 10) ?? UIFont.systemFont(ofSize: 6),
                 NSAttributedString.Key.foregroundColor: UIColor.white
             ])
             rightTopButton.setAttributedTitle(title, for: .normal)

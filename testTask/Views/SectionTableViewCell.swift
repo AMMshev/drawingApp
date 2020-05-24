@@ -73,7 +73,8 @@ class SectionTableViewCell: UITableViewCell {
             sectionImageView.topAnchor.constraint(equalTo: topAnchor),
             sectionImageView.leadingAnchor.constraint(equalTo: leadingAnchor,
                                                       constant: 15),
-            sectionLabel.leadingAnchor.constraint(equalTo: sectionImageView.trailingAnchor, constant: 10),
+            sectionLabel.leadingAnchor.constraint(equalTo: sectionImageView.trailingAnchor,
+                                                  constant: 10),
             sectionLabel.centerYAnchor.constraint(equalTo: sectionImageView.centerYAnchor),
             menuImageView.centerYAnchor.constraint(equalTo: sectionImageView.centerYAnchor),
             menuImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)

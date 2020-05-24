@@ -58,17 +58,17 @@ class DrawingViewController: UIViewController {
     var choisingColorView = ChoisingColorView()
     let ananasBusterButton: BoosterButton = {
         let button = BoosterButton()
-        button.choseBooster(type: .ananas)
+        button.chooseBooster(type: .ananas)
         return button
     }()
     let wandBusterButton: BoosterButton = {
         let button = BoosterButton()
-        button.choseBooster(type: .wand)
+        button.chooseBooster(type: .wand)
         return button
     }()
     let loupeBusterButton: BoosterButton = {
         let button = BoosterButton()
-        button.choseBooster(type: .loupe)
+        button.chooseBooster(type: .loupe)
         return button
     }()
     
@@ -185,7 +185,6 @@ extension DrawingViewController {
         guard let currentColor = currentColor else { return }
         fillAllSegment(of: currentColor)
         choisingColorView.collectionView?.reloadData()
-        
     }
     @objc fileprivate func backButtonTapped() {
         navigationController?.popToRootViewController(animated: true)
@@ -207,8 +206,9 @@ extension DrawingViewController {
         case false:
             settingsView.settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsActive.rawValue), for: .normal)
         }
-        settingsView.settingsAudioButton.isHidden = hideViews
-        settingsView.settingsVibrantButton.isHidden = hideViews
+        settingsView.hideButton()
+//        settingsView.settingsAudioButton.isHidden = hideViews
+//        settingsView.settingsVibrantButton.isHidden = hideViews
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
@@ -222,7 +222,7 @@ extension DrawingViewController {
         })
     }
     fileprivate func fillAllSegment(of color: Constants.DrawingColorNames) {
-        drawingView.fillAllSegments(of: color, segments: sourcePathsArray(with: color))
+        drawingView.fillAll(segments: sourcePathsArray(with: color), of: color)
     }
     fileprivate func sourcePathsArray(with color: Constants.DrawingColorNames) ->
         [() -> UIBezierPath] {

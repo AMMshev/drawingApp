@@ -57,6 +57,11 @@ class SettingsView: UIView {
         settingsAudioButton.isHidden = true
     }
     
+    func hideButton() {
+        settingsVibrantButton.isHidden = true
+        settingsAudioButton.isHidden = true
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

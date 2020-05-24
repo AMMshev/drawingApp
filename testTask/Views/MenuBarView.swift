@@ -16,8 +16,8 @@ class MenuBarView: UIView {
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.gray.cgColor
         view.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        view.layer.shadowRadius = 30.0
-        view.layer.cornerRadius = 30.0
+        view.layer.shadowRadius = 25.0
+        view.layer.cornerRadius = 25.0
         view.layer.shadowOpacity = 0.1
         return view
     }()
@@ -39,7 +39,7 @@ class MenuBarView: UIView {
         button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
         return button
     }()
-    fileprivate var infoButton: UIButton = {
+    fileprivate var infoMenuButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: Constants.ImageNames.MenuBar.info.rawValue), for: .normal)
         button.addTarget(self, action: #selector(menuButtonTapped(sender:)), for: .touchUpInside)
@@ -61,7 +61,7 @@ class MenuBarView: UIView {
         addSubview(shelfView)
         shelfView.addSubview(buttonsStackView)
         NSLayoutConstraint.activate([
-            shelfView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            shelfView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
             shelfView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             shelfView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -20),
             shelfView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
@@ -73,21 +73,21 @@ class MenuBarView: UIView {
         buttonsStackView.addArrangedSubview(mainMenuButton)
         buttonsStackView.addArrangedSubview(easelButton)
         buttonsStackView.addArrangedSubview(giftButton)
-        buttonsStackView.addArrangedSubview(infoButton)
+        buttonsStackView.addArrangedSubview(infoMenuButton)
     }
     
-    private func setButtonsInactiveImages() {
+    fileprivate func setButtonsInactiveImages() {
         mainMenuButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.bird.rawValue),
                                 for: .normal)
         easelButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.gift.rawValue),
                              for: .normal)
         giftButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.paint.rawValue),
                             for: .normal)
-        infoButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.info.rawValue),
+        infoMenuButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.info.rawValue),
                             for: .normal)
     }
     
-    @objc private func menuButtonTapped(sender: UIButton) {
+    @objc fileprivate func menuButtonTapped(sender: UIButton) {
         let navigationController = UIApplication.shared.windows[0].rootViewController as? NavigationController
         if sender == mainMenuButton {
             navigationController?.popToRootViewController(animated: false)
@@ -95,11 +95,11 @@ class MenuBarView: UIView {
             mainMenuButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.birdActive.rawValue), for: .normal)
             isInfoVCpresented = false
         }
-        if sender == infoButton && isInfoVCpresented == false {
+        if sender == infoMenuButton && isInfoVCpresented == false {
             isInfoVCpresented = true
             let infoVC = InformationScreenViewController(nibName: nil, bundle: nil)
             setButtonsInactiveImages()
-            infoButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.infoActive.rawValue), for: .normal)
+            infoMenuButton.setImage(UIImage(named: Constants.ImageNames.MenuBar.infoActive.rawValue), for: .normal)
             navigationController?.pushViewController(infoVC, animated: false)
         }
     }

@@ -149,12 +149,12 @@
 			children = (
 				1C3A7617247715CF00D69B89 /* NavigationController.swift */,
 				1C5FCDED2472DAD50009EDC5 /* MainViewController.swift */,
+				1CAD100C247345420097F392 /* DrawingViewController.swift */,
+				1CEB72CC24742FDA0057ECAC /* TrainingViewController.swift */,
 				1C6C0DC72476E2DC008A05AD /* ShopViewController.swift */,
 				1C25F45E247AD0D10049625A /* ShopTableView.swift */,
 				1C872B942476A38C00D3D087 /* InformationScreenViewController.swift */,
 				1C25F460247AD2EE0049625A /* InformationCollectionView.swift */,
-				1CAD100C247345420097F392 /* DrawingViewController.swift */,
-				1CEB72CC24742FDA0057ECAC /* TrainingViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

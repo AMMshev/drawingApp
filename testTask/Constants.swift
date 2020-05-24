@@ -49,6 +49,7 @@ enum Constants {
             case audioon
             case settingsActive
             case settingsInactive
+            case backgroundImage
             enum Boosters: String {
                 case ananas
                 case wand

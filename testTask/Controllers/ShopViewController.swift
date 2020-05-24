@@ -11,6 +11,7 @@ import UIKit
 class ShopViewController: UIViewController {
     
     private let priceData = ShopData().cellDataArray
+    private let boostersData = ShopData().boostersData
     private let headerView: ShopHeaderView = {
         let view = ShopHeaderView()
         view.backgroundColor = .white
@@ -42,6 +43,9 @@ class ShopViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        boostersData.forEach({
+            headerView.productsPriceView.addToStack(productImage: $0.boosterImageName, priceCount: $0.boosterPrice)
+        })
     }
     
     required init?(coder: NSCoder) {
