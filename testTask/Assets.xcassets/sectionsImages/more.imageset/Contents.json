@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "morex1.png",
+      "filename" : "013-more.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "morex2.png",
+      "filename" : "013-more-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "morex3.png",
+      "filename" : "013-more-3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

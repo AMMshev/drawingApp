@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "birdsx1.png",
+      "filename" : "073-bird-2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "birdsx2.png",
+      "filename" : "073-bird-2-2.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "birdsx3.png",
+      "filename" : "073-bird-2-3.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
