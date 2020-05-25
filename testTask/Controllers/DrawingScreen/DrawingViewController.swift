@@ -15,13 +15,7 @@ class DrawingViewController: UIViewController {
     var currentColor: Constants.DrawingColorNames?
     let sections = Sections().sectionsArray
     let colors = ColorsForPicture().colors
-    var sectionIndex: Int
-    var pictureIndex: Int
-    let drawingView: DrawingView = {
-        let view = DrawingView()
-        view.heightAnchor.constraint(equalToConstant: 400).isActive = true
-        return view
-    }()
+    let drawingView = DrawingView()
     let pinchGesture = UIPinchGestureRecognizer()
     let panGesture = UIPanGestureRecognizer()
     var settingsMenuIsHidden = true
@@ -30,27 +24,20 @@ class DrawingViewController: UIViewController {
         button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
-    let settingsView: SettingsView = {
-        let view = SettingsView()
-        view.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        return view
-    }()
+    let settingsView = SettingsView()
     var settingsViewHeight = NSLayoutConstraint()
     let pickedImage: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        view.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        view.widthAnchor.constraint(equalToConstant: 100.0).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 100.0).isActive = true
         return view
     }()
-    let colorCountView: ColorCountView = {
-        let view = ColorCountView()
-        view.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        return view
-    }()
+    let colorCountView = ColorCountView()
     let addColorCountButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.addColorCount.rawValue), for: .normal)
+        button.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.addColorCount.rawValue),
+                        for: .normal)
         button.addTarget(self, action: #selector(addColorButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -59,26 +46,28 @@ class DrawingViewController: UIViewController {
     let ananasBusterButton: BoosterButton = {
         let button = BoosterButton()
         button.chooseBooster(type: .ananas)
+        button.addTarget(self, action: #selector(showTraining(_:)), for: .touchUpInside)
         return button
     }()
     let wandBusterButton: BoosterButton = {
         let button = BoosterButton()
         button.chooseBooster(type: .wand)
+        button.addTarget(self, action: #selector(wandBoosterButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(showTraining(_:)), for: .touchUpInside)
+        button.infoButton.addTarget(self, action: #selector(showTraining(_:)), for: .touchUpInside)
         return button
     }()
     let loupeBusterButton: BoosterButton = {
         let button = BoosterButton()
         button.chooseBooster(type: .loupe)
+        button.addTarget(self, action: #selector(showTraining(_:)), for: .touchUpInside)
         return button
     }()
     
     init(sectionIndex: Int, pictureIndex: Int, nibName nibNameOrNil: String?,
          bundle nibBundleOrNil: Bundle?) {
-        self.sectionIndex = sectionIndex
-        self.pictureIndex = pictureIndex
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        view.backgroundColor = .white
-        setupTrainingVC()
+        pickedImage.image = UIImage(named: sections[sectionIndex].cellsPictures[pictureIndex])
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -94,9 +83,9 @@ class DrawingViewController: UIViewController {
         navigationController?.menuBarView.isHidden = true
     }
 }
-
+// MARK: - gestures extension
 extension DrawingViewController {
-    @objc func pinchGesture(sender: UIPinchGestureRecognizer) {
+    @objc fileprivate func pinchGesture(sender: UIPinchGestureRecognizer) {
         guard let zoomView = sender.view else { return }
         if (sender.state == .began || sender.state == .changed) && zoomView.transform.d >= 0.9 {
             zoomView.transform = zoomView.transform.scaledBy(x: sender.scale, y: sender.scale)
@@ -107,14 +96,7 @@ extension DrawingViewController {
             }
         }
     }
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesBegan(touches, with: event)
-        guard let point = touches.first?.location(in: drawingView) else { return }
-        fillSegment(at: point, with: currentColor)
-        choisingColorView.collectionView?.reloadData()
-    }
-    
-    @objc func panGesture(sender: UIPanGestureRecognizer) {
+    @objc fileprivate func panGesture(sender: UIPanGestureRecognizer) {
         guard let movableView = sender.view else { return }
         let translation = sender.translation(in: sender.view?.superview)
         if sender.state == .began || sender.state == .changed {
@@ -122,18 +104,22 @@ extension DrawingViewController {
             sender.setTranslation(.zero, in: sender.view?.superview)
         }
     }
-    fileprivate func setupTrainingVC() {
-        trainingVC.delegate = self
-        addChild(trainingVC)
-        view.addSubview(trainingVC.view)
-        trainingVC.didMove(toParent: self)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        guard let point = touches.first?.location(in: drawingView) else { return }
+        fillSegment(at: point, with: currentColor)
+        choisingColorView.collectionView?.reloadData()
     }
+}
+//  MARK: - visual setting extension
+extension DrawingViewController {
     fileprivate func setupSubiews() {
+        view.backgroundColor = .white
         view.addSubview(pickedImage)
+        view.addSubview(drawingView)
         view.addSubview(backButton)
         view.addSubview(settingsView)
         view.addSubview(colorCountView)
-        view.addSubview(drawingView)
         view.addSubview(choisingColorView)
         view.addSubview(ananasBusterButton)
         view.addSubview(wandBusterButton)
@@ -147,41 +133,64 @@ extension DrawingViewController {
         colorCountView.addToStack(element: addColorCountButton)
         settingsView.settingsGeneralButton.addTarget(self, action: #selector(settingsButtonTapped),
                                                      for: .touchUpInside)
-        settingsViewHeight = settingsView.heightAnchor.constraint(equalToConstant: 50)
+        settingsViewHeight = settingsView.heightAnchor.constraint(equalToConstant: 50.0)
         NSLayoutConstraint.activate([
             settingsViewHeight,
             pickedImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            pickedImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 150),
-            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 15),
-            settingsView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            settingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            pickedImage.topAnchor.constraint(equalTo: view.topAnchor, constant: 150.0),
+            backButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 60.0),
+            backButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 15.0),
+            settingsView.topAnchor.constraint(equalTo: view.topAnchor, constant: 60.0),
+            settingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15.0),
             colorCountView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             colorCountView.centerYAnchor.constraint(equalTo: backButton.centerYAnchor),
             drawingView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             drawingView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            drawingView.widthAnchor.constraint(equalToConstant: 400),
-            choisingColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            choisingColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+            choisingColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                       constant: 15.0),
+            choisingColorView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20.0),
             choisingColorView.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                        constant: 25),
-            choisingColorView.heightAnchor.constraint(equalToConstant: 50),
-            ananasBusterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
+                                                        constant: 25.0),
+            choisingColorView.heightAnchor.constraint(equalToConstant: 50.0),
+            ananasBusterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor,
+                                                        constant: 15.0),
             ananasBusterButton.bottomAnchor.constraint(equalTo: choisingColorView.topAnchor,
-                                                       constant: -15),
+                                                       constant: -15.0),
             loupeBusterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                        constant: -15),
+                                                        constant: -15.0),
             loupeBusterButton.bottomAnchor.constraint(equalTo: choisingColorView.topAnchor,
-                                                      constant: -15),
+                                                      constant: -15.0),
             wandBusterButton.trailingAnchor.constraint(equalTo: loupeBusterButton.leadingAnchor,
-                                                       constant: -15),
+                                                       constant: -15.0),
             wandBusterButton.bottomAnchor.constraint(equalTo: choisingColorView.topAnchor,
-                                                     constant: -15)
+                                                     constant: -15.0)
         ])
-        pickedImage.image = UIImage(named: sections[sectionIndex].cellsPictures[pictureIndex])
-        wandBusterButton.addTarget(self, action: #selector(wandBoosterButtonTapped), for: .touchUpInside)
     }
-    @objc func wandBoosterButtonTapped() {
+}
+//  MARK: - button actions extension
+extension DrawingViewController {
+    @objc fileprivate func showTraining(_ sender: UIButton) {
+        if (sender == wandBusterButton ||
+            sender == ananasBusterButton ||
+            sender == loupeBusterButton) &&
+            (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.showsTraining.rawValue) as? Bool) == nil ||
+            sender == wandBusterButton.infoButton {
+            trainingVC = TrainingViewController()
+            trainingVC.delegate = self
+            addChild(trainingVC)
+            view.addSubview(trainingVC.view)
+            trainingVC.didMove(toParent: self)
+            trainingVC.view.frame = view.frame
+            trainingVC.view.alpha = 0.0
+            UIView.animate(withDuration: 0.3) {
+                self.trainingVC.view.alpha = 1.0
+            }
+            if UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.showsTraining.rawValue) as? Bool != true {
+                UserDefaults.standard.set(true, forKey: Constants.UserDafaultsKeys.showsTraining.rawValue)
+            }
+        }
+    }
+    @objc fileprivate func wandBoosterButtonTapped() {
         guard let currentColor = currentColor else { return }
         fillAllSegment(of: currentColor)
         choisingColorView.collectionView?.reloadData()
@@ -192,23 +201,25 @@ extension DrawingViewController {
     @objc fileprivate func settingsButtonTapped() {
         switch settingsMenuIsHidden {
         case true:
-            resizeSettingsMenu(to: 150, hideViews: false)
+            resizeSettingsMenu(to: 150.0, hideButtons: false)
         case false:
-            resizeSettingsMenu(to: 50, hideViews: true)
+            resizeSettingsMenu(to: 50.0, hideButtons: true)
         }
         settingsMenuIsHidden = !settingsMenuIsHidden
     }
-    fileprivate func resizeSettingsMenu(to height: CGFloat, hideViews: Bool) {
+    @objc fileprivate func addColorButtonTapped() {
+        let shopVC = ShopViewController(nibName: nil, bundle: nil)
+        present(shopVC, animated: true, completion: nil)
+    }
+    fileprivate func resizeSettingsMenu(to height: CGFloat, hideButtons: Bool) {
         settingsViewHeight.constant = height
-        switch hideViews {
+        switch hideButtons {
         case true:
             settingsView.settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsInactive.rawValue), for: .normal)
         case false:
             settingsView.settingsGeneralButton.setImage(UIImage(named: Constants.ImageNames.DrowingScreen.settingsActive.rawValue), for: .normal)
         }
-        settingsView.hideButton()
-//        settingsView.settingsAudioButton.isHidden = hideViews
-//        settingsView.settingsVibrantButton.isHidden = hideViews
+        settingsView.hideButtons(hideButtons)
         UIView.animate(withDuration: 0.3) {
             self.view.layoutIfNeeded()
         }
@@ -217,7 +228,7 @@ extension DrawingViewController {
         guard let color = color else { return }
         sourcePathsArray(with: color).forEach({
             if $0().contains(path) {
-                drawingView.checkIsSegmentColoredAndAdd(segment: $0(), with: color)
+                drawingView.checkIsSegmentColoredAndAdd(segment: $0(), of: color)
             }
         })
     }
@@ -241,35 +252,33 @@ extension DrawingViewController {
                 return greenBrownBlueRedPaths.redColorPaths
             }
     }
-    @objc fileprivate func addColorButtonTapped() {
-        let shopVC = ShopViewController(nibName: nil, bundle: nil)
-        present(shopVC, animated: true, completion: nil)
-    }
 }
-
+// MARK: - hiding training screen delegate
 extension DrawingViewController: TrainingViewCellDelegate {
     func hideTraining(onLeftSide: Bool) {
         var xTranslation = UIScreen.main.bounds.width
         if onLeftSide == false {
-            xTranslation *= -1
+            xTranslation *= -1.0
         }
         UIView.animate(withDuration: 0.3, animations: {
-            self.trainingVC.view.transform = CGAffineTransform(translationX: xTranslation, y: 0)
+            self.trainingVC.view.transform = CGAffineTransform(translationX: xTranslation, y: 0.0)
         }) { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                self.trainingVC.willMove(toParent: nil)
+                self.trainingVC.didMove(toParent: nil)
                 self.trainingVC.view.removeFromSuperview()
                 self.trainingVC.removeFromParent()
             }
         }
     }
 }
+//  MARK: - change showing balance delegate
 extension DrawingViewController: ShopTableViewCellDelegate {
     func buyColor(boughtColorCount: Double) {
         let newBalance = (UserDefaults.standard.object(forKey: Constants.UserDafaultsKeys.balance.rawValue) as? Double ?? 0.0)
         colorCountView.setColorCount(value: newBalance)
     }
 }
+//  MARK: - picking color collection view settings
 extension DrawingViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         colors.count

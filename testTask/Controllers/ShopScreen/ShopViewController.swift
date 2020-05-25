@@ -14,9 +14,6 @@ class ShopViewController: UIViewController {
     private let boostersData = ShopData().boostersData
     private let headerView: ShopHeaderView = {
         let view = ShopHeaderView()
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 220.0).isActive = true
         view.closeButton.addTarget(self, action: #selector(closeButtonTapped),
                                    for: .touchUpInside)
         return view
@@ -44,8 +41,8 @@ class ShopViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         boostersData.forEach({
-            headerView.productsPriceView.addToStack(productImage: $0.boosterImageName, priceCount: $0.boosterPrice)
-        })
+            headerView.productsPriceView.addToStack(productImage: $0.boosterImageName,
+                                                    priceCount: $0.boosterPrice)})
     }
     
     required init?(coder: NSCoder) {
@@ -72,7 +69,7 @@ extension ShopViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        85
+        85.0
     }
 }
 

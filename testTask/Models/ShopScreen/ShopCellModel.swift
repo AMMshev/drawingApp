@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+//  MARK: - model and data of table view cells and views at shop screen
 struct ShopCellModel{
     let colorCount: Double
     let price: String?

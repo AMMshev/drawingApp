@@ -25,6 +25,7 @@ enum Constants {
     }
     enum UserDafaultsKeys: String {
         case balance
+        case showsTraining
     }
     enum ImageNames: String {
         case fill

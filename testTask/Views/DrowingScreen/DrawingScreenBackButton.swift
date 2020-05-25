@@ -19,10 +19,10 @@ class DrawingScreenBackButton: UIButton {
         layer.shadowColor = UIColor.gray.cgColor
         layer.shadowOffset = CGSize(width: 1.0, height: 1.5)
         setImage(UIImage(named: Constants.ImageNames.DrowingScreen.back.rawValue),
-                        for: .normal)
+                 for: .normal)
         translatesAutoresizingMaskIntoConstraints = false
-        widthAnchor.constraint(equalToConstant: 50).isActive = true
-        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
     required init?(coder: NSCoder) {

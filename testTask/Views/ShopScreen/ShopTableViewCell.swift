@@ -12,9 +12,6 @@ protocol ShopTableViewCellDelegate: class {
     func buyColor(boughtColorCount: Double) -> Void
 }
 
-protocol shopActionDelegate: class {
-    func balanceCountChanged() -> Void
-}
 class ShopTableViewCell: UITableViewCell {
     
     weak open var delegate: ShopTableViewCellDelegate?
@@ -24,7 +21,7 @@ class ShopTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 70.0).isActive = true
         view.layer.shadowColor = UIColor.gray.cgColor
         view.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         view.layer.shadowRadius = 7.5
@@ -47,7 +44,7 @@ class ShopTableViewCell: UITableViewCell {
     }()
     fileprivate var colorCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 24)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 24.0)
         label.textColor = UIColor(named: Constants.ImageNames.colorCount.rawValue)
         return label
     }()
@@ -70,7 +67,7 @@ class ShopTableViewCell: UITableViewCell {
         view.layer.cornerRadius = 8.5
         return view
     }()
-    var colorCount: Double = 0
+    var colorCount: Double = 0.0
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
@@ -82,16 +79,18 @@ class ShopTableViewCell: UITableViewCell {
         selectionStyle = .none
         NSLayoutConstraint.activate([
             mainView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+            mainView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15.0),
+            mainView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                               constant: -15.0),
             paintImageView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             paintImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                    constant: 15),
-            countAndBonusStackView.leadingAnchor.constraint(equalTo: paintImageView.trailingAnchor, constant: 15),
+                                                    constant: 15.0),
+            countAndBonusStackView.leadingAnchor.constraint(equalTo: paintImageView.trailingAnchor,
+                                                            constant: 15.0),
             countAndBonusStackView.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             priceButton.centerYAnchor.constraint(equalTo: mainView.centerYAnchor),
             priceButton.trailingAnchor.constraint(equalTo: mainView.trailingAnchor,
-                                                  constant: -15),
+                                                  constant: -15.0),
             stickerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stickerView.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
@@ -106,23 +105,23 @@ class ShopTableViewCell: UITableViewCell {
             bonusLabel.text = bonus
             bonusLabel.textColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
             bonusLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue,
-                                     size: 10)
+                                     size: 10.0)
         }
         if let freeTask = freeTask {
             taskLabel.text = freeTask
             taskLabel.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue,
-                                    size: 10)
+                                    size: 10.0)
         }
     }
     func addToCell(price: String?, bonusTask: Constants.BonusTasksNames?,
                    sticker: Constants.StickersNames?) {
         if let price = price {
             let buttonsTitle = NSAttributedString(string: price, attributes: [NSAttributedString.Key.font:
-                UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12)
-                    ?? UIFont.systemFont(ofSize: 12)])
+                UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12.0)
+                    ?? UIFont.systemFont(ofSize: 12.0)])
             priceButton.setAttributedTitle(buttonsTitle, for: .normal)
-            priceButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-            priceButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+            priceButton.heightAnchor.constraint(equalToConstant: 30.0).isActive = true
+            priceButton.widthAnchor.constraint(equalToConstant: 80.0).isActive = true
             priceButton.layer.shadowColor = UIColor.gray.cgColor
             priceButton.layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
             priceButton.layer.shadowRadius = 15.0
@@ -137,7 +136,7 @@ class ShopTableViewCell: UITableViewCell {
             stickerTitle.centerXAnchor.constraint(equalTo: stickerView.centerXAnchor).isActive = true
             stickerTitle.textColor = .white
             let title = NSAttributedString(string: sticker.rawValue,
-                                           attributes: [NSAttributedString.Key.font:UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 6) ?? UIFont.systemFont(ofSize: 6)])
+                                           attributes: [NSAttributedString.Key.font:UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 6.0) ?? UIFont.systemFont(ofSize: 6.0)])
             stickerTitle.attributedText = title
             switch sticker {
             case .unlockGift:
@@ -151,7 +150,7 @@ class ShopTableViewCell: UITableViewCell {
         if let bonusTask = bonusTask {
             priceButton.backgroundColor = #colorLiteral(red: 0.4392156863, green: 0.1411764706, blue: 0.831372549, alpha: 1)
             let buttonsTitle = NSAttributedString(string: bonusTask.rawValue, attributes: [NSAttributedString.Key.font:
-                UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12) ?? UIFont.systemFont(ofSize: 12), NSAttributedString.Key.foregroundColor: UIColor.white])
+                UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12.0) ?? UIFont.systemFont(ofSize: 12.0), NSAttributedString.Key.foregroundColor: UIColor.white])
             priceButton.setAttributedTitle(buttonsTitle, for: .normal)
             priceButton.setTitle(bonusTask.rawValue, for: .normal)
             switch bonusTask {

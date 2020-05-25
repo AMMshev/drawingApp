@@ -13,7 +13,7 @@ struct SectionModel {
     let imageName: String
     let cellsPictures: [String]
 }
-
+//  MARK: - model of table view cells at main screen
 struct Sections {
     let sectionsArray = [
         SectionModel(sectionName: "Animals",

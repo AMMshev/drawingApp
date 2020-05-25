@@ -30,6 +30,8 @@ class DrawingView: UIView {
             imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageView.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
+        heightAnchor.constraint(equalToConstant: 400.0).isActive = true
+        widthAnchor.constraint(equalToConstant: 400.0).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -74,7 +76,8 @@ class DrawingView: UIView {
         }
     }
     
-    func checkIsSegmentColoredAndAdd(segment: UIBezierPath, with color: Constants.DrawingColorNames) {
+    func checkIsSegmentColoredAndAdd(segment: UIBezierPath,
+                                     of color: Constants.DrawingColorNames) {
         switch color {
         case .gray:
             if !grayColorPathsArray.contains(segment) { grayColorPathsArray.append(segment) }

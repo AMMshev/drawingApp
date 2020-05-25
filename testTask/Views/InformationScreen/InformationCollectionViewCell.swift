@@ -5,7 +5,7 @@
 //  Created by Artem Manyshev on 21.05.2020.
 //  Copyright © 2020 Artem Manyshev. All rights reserved.
 //
-
+//  MARK: - collection view from INFO screen
 import UIKit
 
 class InformationCollectionViewCell: UICollectionViewCell {
@@ -17,7 +17,7 @@ class InformationCollectionViewCell: UICollectionViewCell {
     }()
     fileprivate let labelView: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 12.0)
         label.lineBreakMode = .byWordWrapping
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -29,16 +29,16 @@ class InformationCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         backgroundColor = .white
         layer.shadowColor = UIColor.gray.cgColor
-        layer.shadowOffset = CGSize(width: 2, height: 2)
+        layer.shadowOffset = CGSize(width: 2.0, height: 2.0)
         layer.cornerRadius = 8.0
         layer.shadowRadius = 8.0
         layer.shadowOpacity = 0.2
         addSubview(imageView)
         addSubview(labelView)
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 25),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 25.0),
             imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            labelView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25),
+            labelView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -25.0),
             labelView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }

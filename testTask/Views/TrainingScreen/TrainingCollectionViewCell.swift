@@ -17,17 +17,17 @@ class TrainingCollectionViewCell: UICollectionViewCell {
     }()
     fileprivate let pageTitle: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 14)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 14.0)
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     fileprivate let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 14)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 14.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .white
-        label.widthAnchor.constraint(equalToConstant: 180).isActive = true
+        label.widthAnchor.constraint(equalToConstant: 180.0).isActive = true
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -57,14 +57,14 @@ class TrainingCollectionViewCell: UICollectionViewCell {
             blurEffect.bottomAnchor.constraint(equalTo: bottomAnchor),
             blurEffect.trailingAnchor.constraint(equalTo: trailingAnchor),
             pageImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -60),
+            pageImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -60.0),
             pageTitle.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageTitle.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 50),
+            pageTitle.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 50.0),
             descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             descriptionLabel.topAnchor.constraint(equalTo: pageTitle.bottomAnchor,
-                                                  constant: 30),
+                                                  constant: 30.0),
             priceImageView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,
-                                                constant: 15),
+                                                constant: 15.0),
             priceImageView.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }

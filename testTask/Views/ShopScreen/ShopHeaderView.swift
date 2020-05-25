@@ -5,7 +5,7 @@
 //  Created by Artem Manyshev on 21.05.2020.
 //  Copyright © 2020 Artem Manyshev. All rights reserved.
 //
-
+//  MARK: - view which is shown above table view
 import UIKit
 
 class ShopHeaderView: UIView {
@@ -14,8 +14,8 @@ class ShopHeaderView: UIView {
         let button = UIButton()
         button.setImage(UIImage(named: Constants.ImageNames.cancel.rawValue), for: .normal)
         button.backgroundColor = .white
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 50.0).isActive = true
         button.layer.shadowOpacity = 0.2
         button.layer.shadowRadius = 25.0
         button.layer.cornerRadius = 25.0
@@ -25,7 +25,7 @@ class ShopHeaderView: UIView {
     }()
     fileprivate let moreColorLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16.0)
         label.text = "MORE COLORS"
         return label
     }()
@@ -67,9 +67,12 @@ class ShopHeaderView: UIView {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             productsPriceView.centerXAnchor.constraint(equalTo: centerXAnchor),
             productsPriceView.topAnchor.constraint(equalTo: stackView.bottomAnchor,
-                                                   constant: 15),
-            productsPriceView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30)
+                                                   constant: 15.0),
+            productsPriceView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -30.0)
         ])
+        backgroundColor = .white
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(equalToConstant: 220.0).isActive = true
     }
     
     required init?(coder: NSCoder) {

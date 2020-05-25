@@ -40,6 +40,7 @@ extension InformationCollectionView: UICollectionViewDelegate, UICollectionViewD
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let collectionViewSize = collectionView.bounds.size
-        return CGSize(width: (collectionViewSize.width - 76) / 2, height: (collectionViewSize.width - 76) / 2)
+        return CGSize(width: (collectionViewSize.width - 76.0) / 2.0,
+                      height: (collectionViewSize.width - 76.0) / 2.0)
     }
 }

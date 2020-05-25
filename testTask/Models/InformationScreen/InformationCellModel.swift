@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+//  MARK: - model of collection view cells at information screen(button INFO)
 struct InformationScreenCellModel {
     let imageName: String
     let labelText: String
