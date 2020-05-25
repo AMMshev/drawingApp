@@ -13,7 +13,7 @@ class NavigationController: UINavigationController {
     let menuBarView: MenuBarView = {
         let view = MenuBarView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 90).isActive = true
+        view.heightAnchor.constraint(equalToConstant: 90.0).isActive = true
         return view
     }()
     

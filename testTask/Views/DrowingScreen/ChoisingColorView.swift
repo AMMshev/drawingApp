@@ -33,7 +33,7 @@ class ChoisingColorView: UIView {
         guard let collectionView = collectionView else { return }
         collectionView.register(ChoisingColorCollectionViewCell.self,
                                 forCellWithReuseIdentifier: Constants.CollectionViewCellsID.choisingColorCell.rawValue)
-        collectionViewLayout.sectionInset = UIEdgeInsets(top: 15.0, left: 0, bottom: 15,
+        collectionViewLayout.sectionInset = UIEdgeInsets(top: 15.0, left: 0.0, bottom: 15.0,
                                                          right: UIScreen.main.bounds.width - 25.0)
         collectionView.decelerationRate = .fast
         collectionView.showsHorizontalScrollIndicator = false

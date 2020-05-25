@@ -36,16 +36,17 @@ class ChoisingColorCollectionViewCell: UICollectionViewCell {
         super.draw(rect)
         
         let lineWidth = CGFloat(2.0)
-        let newRect = CGRect(x: rect.minX + lineWidth / 2, y: rect.minY + lineWidth / 2, width: rect.maxX - lineWidth, height: rect.maxY - lineWidth)
+        let newRect = CGRect(x: rect.minX + lineWidth / 2.0, y: rect.minY + lineWidth / 2.0,
+                             width: rect.maxX - lineWidth, height: rect.maxY - lineWidth)
         let circlePath = UIBezierPath(ovalIn: newRect)
         circlePath.lineWidth = lineWidth
         UIColor(named: segmentColor?.rawValue ?? "red")?.setFill()
         circlePath.fill()
         
-        let x = (rect.maxX - rect.minX) / 2
-        let y = (rect.maxY - rect.minY) / 2
+        let x = (rect.maxX - rect.minX) / 2.0
+        let y = (rect.maxY - rect.minY) / 2.0
         let center = CGPoint(x: rect.minX + x, y: rect.minY + y)
-        let radius = max(x, y) - lineWidth / 2
+        let radius = max(x, y) - lineWidth / 2.0
         let startAngle: CGFloat = -.pi / 2.0 + .pi * partOfColoredSegments * 2.0
         let endAngle: CGFloat = -.pi / 2.0
         let outlinePath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: false)

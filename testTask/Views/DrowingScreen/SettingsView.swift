@@ -55,11 +55,12 @@ class SettingsView: UIView {
         settingsStackView.addArrangedSubview(settingsAudioButton)
         settingsVibrantButton.isHidden = true
         settingsAudioButton.isHidden = true
+        widthAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
-    func hideButton() {
-        settingsVibrantButton.isHidden = true
-        settingsAudioButton.isHidden = true
+    func hideButtons(_ hide: Bool) {
+        settingsVibrantButton.isHidden = hide
+        settingsAudioButton.isHidden = hide
     }
     
     required init?(coder: NSCoder) {

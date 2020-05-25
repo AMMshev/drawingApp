@@ -14,14 +14,15 @@ class MainViewController: UIViewController {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(SectionTableViewCell.self, forCellReuseIdentifier: Constants.TableViewCellsID.sectionCell.rawValue)
+        tableView.register(SectionTableViewCell.self,
+                           forCellReuseIdentifier: Constants.TableViewCellsID.sectionCell.rawValue)
         return tableView
     }()
     let sections = Sections().sectionsArray
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "EXPLORE"
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,11 +51,11 @@ class MainViewController: UIViewController {
     }
     fileprivate func setLayout() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 72),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 72.0),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 31),
+            tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 31.0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -90.0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }

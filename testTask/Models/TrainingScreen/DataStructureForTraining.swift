@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+//  MARK: - model of collection view cell at training screen
 struct TrainingPageModel {
     let pageImageName: String
     let pageTitle: String

@@ -16,12 +16,12 @@ class TrainingViewController: UIViewController {
     
     weak open var delegate: TrainingViewCellDelegate?
     
-    var collectionView: UICollectionView = {
+    fileprivate var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.minimumLineSpacing = 0
+        collectionViewLayout.minimumLineSpacing = 0.0
         collectionViewLayout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame:
-            CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width,
+            CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width,
                    height: UIScreen.main.bounds.height),
                                               collectionViewLayout: collectionViewLayout)
         collectionView.register(TrainingCollectionViewCell.self,
@@ -31,25 +31,25 @@ class TrainingViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
-    let pageControl: UIPageControl = {
+    fileprivate let pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.isUserInteractionEnabled = false
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         return pageControl
     }()
-    let nextButton: UIButton = {
+    fileprivate let nextButton: UIButton = {
         let button = UIButton()
         let title = NSAttributedString(string: "Next", attributes: [
             NSAttributedString.Key.foregroundColor: UIColor.white,
-            NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 16) ?? UIFont.systemFont(ofSize: 16)
+            NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTProCyr.rawValue, size: 16.0) ?? UIFont.systemFont(ofSize: 16.0)
         ])
         button.setAttributedTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
-    let introductionScreenData = DataForTraining().pagesArray
-    var currentPage = 0
+    fileprivate let introductionScreenData = DataForTraining().pagesArray
+    fileprivate var currentPage = 0
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -74,18 +74,15 @@ class TrainingViewController: UIViewController {
         NSLayoutConstraint.activate([
             pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             pageControl.bottomAnchor.constraint(equalTo: view.bottomAnchor,
-                                                constant: -50),
+                                                constant: -50.0),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor,
-                                                 constant: -30),
+                                                 constant: -30.0),
             nextButton.centerYAnchor.constraint(equalTo: pageControl.centerYAnchor)
         ])
     }
-    
-    @objc func nextButtonTapped() {
-        let xPositionOfNextPage = collectionView.bounds.width *
-            CGFloat(currentPage + 1)
-        if let path = collectionView.indexPathForItem(at:
-            CGPoint(x: xPositionOfNextPage, y: 1)) {
+    @objc fileprivate func nextButtonTapped() {
+        let xPositionOfNextPage = collectionView.bounds.width * CGFloat(currentPage + 1)
+        if let path = collectionView.indexPathForItem(at: CGPoint(x: xPositionOfNextPage, y: 1.0)) {
             currentPage += 1
             pageControl.currentPage = currentPage
             collectionView.scrollToItem(at: path, at: .right,
@@ -115,10 +112,10 @@ extension TrainingViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.bounds.size
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.x < -100 {
+        if scrollView.contentOffset.x < -100.0 {
             self.delegate?.hideTraining(onLeftSide: true)
         }
-        if scrollView.contentOffset.x > 850 {
+        if scrollView.contentOffset.x > 850.0 {
             self.delegate?.hideTraining(onLeftSide: false)
         }
     }

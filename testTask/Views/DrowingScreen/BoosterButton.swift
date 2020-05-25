@@ -10,7 +10,7 @@ import UIKit
 
 class BoosterButton: UIButton {
     
-    let rightTopButton: UIButton = {
+    let infoButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
@@ -21,14 +21,14 @@ class BoosterButton: UIButton {
         button.layer.shadowRadius = 9.0
         return button
     }()
-    let rightBottomlabel: UILabel = {
+    let boosterCostlabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 6.0)
         label.textColor = UIColor(named: "colorCount")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    let rightBottomView: UIView = {
+    let boosterCostView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.heightAnchor.constraint(equalToConstant: 18.0).isActive = true
@@ -43,23 +43,23 @@ class BoosterButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
-        widthAnchor.constraint(equalToConstant: 50).isActive = true
-        heightAnchor.constraint(equalToConstant: 50).isActive = true
+        widthAnchor.constraint(equalToConstant: 50.0).isActive = true
+        heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         backgroundColor = .white
         layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         layer.shadowRadius = 25.0
         layer.cornerRadius = 25.0
         layer.shadowOpacity = 0.2
-        addSubview(rightTopButton)
-        addSubview(rightBottomView)
-        rightBottomView.addSubview(rightBottomlabel)
+        addSubview(infoButton)
+        addSubview(boosterCostView)
+        boosterCostView.addSubview(boosterCostlabel)
         NSLayoutConstraint.activate([
-            rightTopButton.topAnchor.constraint(equalTo: topAnchor),
-            rightTopButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            rightBottomView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            rightBottomView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            rightBottomlabel.centerXAnchor.constraint(equalTo: rightBottomView.centerXAnchor),
-            rightBottomlabel.centerYAnchor.constraint(equalTo: rightBottomView.centerYAnchor)
+            infoButton.topAnchor.constraint(equalTo: topAnchor),
+            infoButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            boosterCostView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            boosterCostView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            boosterCostlabel.centerXAnchor.constraint(equalTo: boosterCostView.centerXAnchor),
+            boosterCostlabel.centerYAnchor.constraint(equalTo: boosterCostView.centerYAnchor)
         ])
         
     }
@@ -67,24 +67,24 @@ class BoosterButton: UIButton {
         setImage(UIImage(named: type.rawValue), for: .normal)
         switch type {
         case .ananas:
-            rightTopButton.setTitle("x16", for: .normal)
+            infoButton.setTitle("x16", for: .normal)
             let title = NSAttributedString(string: "x16", attributes: [
-                NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 6) ?? UIFont.systemFont(ofSize: 6),
+                NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 6.0) ?? UIFont.systemFont(ofSize: 6.0),
                 NSAttributedString.Key.foregroundColor: UIColor(named: "colorCount") ?? UIColor.systemPink
             ])
-            rightTopButton.setAttributedTitle(title, for: .normal)
-            rightBottomView.isHidden = true
+            infoButton.setAttributedTitle(title, for: .normal)
+            boosterCostView.isHidden = true
         case .wand:
-            rightTopButton.backgroundColor = .purple
+            infoButton.backgroundColor = .purple
             let title = NSAttributedString(string: "i", attributes: [
-                NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 10) ?? UIFont.systemFont(ofSize: 6),
+                NSAttributedString.Key.font: UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 10.0) ?? UIFont.systemFont(ofSize: 6.0),
                 NSAttributedString.Key.foregroundColor: UIColor.white
             ])
-            rightTopButton.setAttributedTitle(title, for: .normal)
-            rightBottomlabel.text = "113"
+            infoButton.setAttributedTitle(title, for: .normal)
+            boosterCostlabel.text = "113"
         case .loupe:
-            rightTopButton.isHidden = true
-            rightBottomlabel.text = "32"
+            infoButton.isHidden = true
+            boosterCostlabel.text = "32"
         }
     }
     

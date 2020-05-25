@@ -5,7 +5,7 @@
 //  Created by Artem Manyshev on 21.05.2020.
 //  Copyright © 2020 Artem Manyshev. All rights reserved.
 //
-
+//  MARK: - view which is shown color balance at drowing screen and shop screen
 import UIKit
 
 class ColorCountView: UIView {
@@ -14,7 +14,7 @@ class ColorCountView: UIView {
         let stackView = UIStackView()
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
-        stackView.spacing = 30
+        stackView.spacing = 30.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -28,7 +28,7 @@ class ColorCountView: UIView {
     fileprivate let colorCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "colorCount")
-        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16)
+        label.font = UIFont(name: Constants.Fonts.arialRoundedMTBold.rawValue, size: 16.0)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -42,10 +42,11 @@ class ColorCountView: UIView {
         addSubview(stackView)
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15.0),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15)
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15.0)
         ])
+        heightAnchor.constraint(equalToConstant: 50.0).isActive = true
         layer.shadowColor = UIColor.gray.cgColor
         layer.shadowOffset = CGSize(width: 1.0, height: 1.0)
         layer.shadowRadius = 25.0
@@ -55,7 +56,7 @@ class ColorCountView: UIView {
     }
     
     func setColorCount(value: Double) {
-        colorCountLabel.text = value / 1000 >= 1 ? String(Int(value / 1000)) + "K" : String(Int(value))
+        colorCountLabel.text = value / 1000.0 >= 1.0 ? String(Int(value / 1000.0)) + "K" : String(Int(value))
     }
     func addToStack(element: UIView) {
         stackView.addArrangedSubview(element)
